@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-16T17:11:54+08:00</updated>
+  <updated>2014-11-16T17:36:28+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -14,11 +14,15 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Title]]></title>
+    <title type="html"><![CDATA[I Am Test One]]></title>
     <link href="http://chaozi204.github.io/blog/2014/11/16/title/"/>
     <updated>2014-11-16T17:11:18+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/11/16/title</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<h2>1</h2>
+
+<h4>2</h4>
+
+<p>heloolsdf</p>
 ]]></content>
   </entry>
   
