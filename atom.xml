@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[experience]]></title>
+  <title><![CDATA[chaozi blog]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-17T11:31:30+08:00</updated>
+  <updated>2014-11-17T11:40:19+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[chaozi]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My Confession]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/17/my-confession/"/>
-    <updated>2014-11-17T11:20:32+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/17/my-confession</id>
+    <title type="html"><![CDATA[First]]></title>
+    <link href="http://chaozi204.github.io/blog/2014/11/17/first/"/>
+    <updated>2014-11-17T11:39:37+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2014/11/17/first</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
