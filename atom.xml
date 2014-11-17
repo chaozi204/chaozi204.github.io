@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[experience]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-17T10:05:27+08:00</updated>
+  <updated>2014-11-17T11:29:05+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[chaozi]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[I Am Test One]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/16/title/"/>
-    <updated>2014-11-16T17:11:18+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/16/title</id>
-    <content type="html"><![CDATA[<h2>1</h2>
-
-<h4>2</h4>
-
-<p>heloolsdf</p>
+    <title type="html"><![CDATA[My Confession]]></title>
+    <link href="http://chaozi204.github.io/blog/2014/11/17/my-confession/"/>
+    <updated>2014-11-17T11:20:32+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2014/11/17/my-confession</id>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
