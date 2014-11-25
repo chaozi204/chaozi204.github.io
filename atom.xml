@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[chaozi blogs]]></title>
+  <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-17T13:16:43+08:00</updated>
+  <updated>2014-11-25T23:34:28+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
-    <name><![CDATA[chaozi]]></name>
+    <name><![CDATA[超子]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,10 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[Confession]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/17/confession/"/>
-    <updated>2014-11-17T12:28:51+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/17/confession</id>
-    <content type="html"><![CDATA[<p>好记性不如烂笔头，没有笔记，留给你的就是遗忘</p>
+    <link href="http://chaozi204.github.io/blog/2014/11/25/confession/"/>
+    <updated>2014-11-25T23:00:37+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2014/11/25/confession</id>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
