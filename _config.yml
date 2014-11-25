@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://chaozi204.github.io
-title: chaozi blogs
-subtitle: blogging for my experience.
-author: chaozi
+title: 超子博客
+subtitle: 好记性，不如烂笔头
+author: 超子
 simple_search: https://wen.lu/search
-description:
+description: 且行且珍惜
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -91,8 +91,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: chaozi204-comments
-disqus_show_comment_count: true
+disqus_short_name:
+disqus_show_comment_count: false
 
 # Google Analytics
 google_analytics_tracking_id:
