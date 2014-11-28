@@ -9,8 +9,8 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="问题描述 Hadoop Job在执行时非常缓慢（hadoop-1.0.0 和 hadoop-2.5.0集群中都有），且很多Map任务或reduce任务因为超时被kill掉，异常信息如下：
-Task attempt_201406261559_894052_m_000269_1 failed to &hellip;">
+  <meta name="description" content="缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13
+- 默认缩写在 Preference —> Live &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,53 @@ Task attempt_201406261559_894052_m_000269_1 failed to &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-28T19:02:22+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:02 pm</span></time>
+        
+        
+          | <a href="/blog/2014/11/28/intellij-abbreviation/#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13
+- 默认缩写在 Preference —> Live Templates 中,如图：
+<img src="/images/intellji/abbreviation_find.png" alt="image" /></p>
+
+<ul>
+<li>自定义Abbreviation（缩写）过程：</li>
+<li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
+<li>点击图中右上角的 ’+’ 号</li>
+<li>选择Live Template</li>
+<li>根据要求输入缩写名称和代表的真实名称</li>
+<li>选择定义的 Applicable Contexts （也就是选择应用到的语言中）</li>
+<li><p>最后结果如下所示(这里以定义java中的 main 为例 )
+<img src="/images/intellji/abbreviation_custom.png" alt="image" /></p></li>
+<li><p>完成</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -174,6 +221,10 @@ Task attempt_201406261559_894052_m_000269_1 failed to &hellip;">
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/11/25/confession/">Task读取HDFS数据导致任务失败或延迟</a>
