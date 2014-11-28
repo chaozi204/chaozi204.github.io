@@ -1,7 +1,46 @@
 ---
 layout: post
-title: "confession"
+title: "Task读取HDFS数据导致任务失败或延迟"
 date: 2014-11-25 23:00:37 +0800
 comments: true
-categories: 
+categories: hadoop
+description: somethings for hadoop
+keywords: hadoop distributecache 
 ---
+### 问题描述
++ Hadoop Job在执行时非常缓慢（hadoop-1.0.0 和 hadoop-2.5.0集群中都有），且很多Map任务或reduce任务因为超时被kill掉，异常信息如下：
+`Task attempt_201406261559_894052_m_000269_1 failed to report status for 602 seconds. Killing!`
+
++ 任务卡在初始化的过程中，也就是Map和Reduce的setup方法中
+`protected void setup(Context context ) throws IOException, InterruptedException { }
+`
++ 任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时
+
+### 问题分析及排查
+- 首先排查GC导致的问题，检查其中几个任务的gc情况就可以得出是不是GC引起的
+- 因为任务是因为超时被kill的，也就是说任务在10分钟左右都没有进度，且任务的状态是在RUNNING状态，也就是说任务要么卡在setup初始化中，要么是卡在map方法或reduce方法中比较耗时的操作
+- 检查用户代码，主要查看setup方法和任务比较耗时的map或reduce方法
+- 发现在setup方法中，会去读取hdfs文件，文件大小在100M左右
+```java
+ public static String read(String filePath) throws IOException{  
+    Configuration config = new Configuration();
+    FSDataInputStream in = null;
+    String fileName = filePath;
+    StringBuffer rv=new StringBuffer();
+    FileSystem hdfs = FileSystem.get(config);
+    in = hdfs.open(new Path(fileName));
+    String aline = null;
+    BufferedReader bufread= new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    while((aline=bufread.readLine())!=null){
+        rv.append(aline+"\n");}
+    in.close();
+    return rv.toString();
+}
+```
+
+
+- 此时开始怀疑是不是因为读取文件而导致这个问题呢。于是分析计算，总计2400 Map个，3个文件的备份，每个备份要负责800个任务的读取操作，假设网络带宽为100M跑满，也就是1秒中最多只能给1个map输送数据，这样全部完成需要800秒，超过了10分钟，也就是任务被kill的原因（以上分析完全是理想的情况下，实际情况更复杂），这是去查看cache的文件在机器的备份情况，然后通过ganglia查看机器当时的网络消费（的确是跑满了网络带宽，而且持续时间超过了10分钟），因此判断是因为网络堵塞导致任务失败.
+
+### 解决方法
+- 最好使用DistributeCache来代替直接读取hdfs文件的操作，这样不仅可以接受网络带宽，还能减少任务初始化的时间，减少因为本任务对其他任务的影响
+- 次之方法是将文件的备份数增多，但是全部的网络消耗并没有节省，但是能够保证任务执行

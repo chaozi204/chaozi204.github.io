@@ -55,7 +55,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
-blog_index_asides: [ custom/asides/recent_comments.html ]
+#blog_index_asides: [ custom/asides/recent_comments.html ]
 post_asides: [ custom/asides/recent_comments.html ]
 page_asides: [ custom/asides/recent_comments.html ]
 
@@ -66,8 +66,8 @@ page_asides: [ custom/asides/recent_comments.html ]
 # Github repositories
 github_user: chaozi204
 github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
+github_show_profile_link: false
+github_skip_forks: false
 
 # Twitter
 #twitter_user:
