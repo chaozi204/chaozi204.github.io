@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Confession - 超子博客</title>
+  <title>Task读取HDFS数据导致任务失败或延迟 - 超子博客</title>
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="
-">
-  
+  <meta name="description" content="somethings for hadoop">
+  <meta name="keywords" content="hadoop distributecache">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -69,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Confession</h1>
+      <h1 class="entry-title">Task读取HDFS数据导致任务失败或延迟</h1>
     
     
       <p class="meta">
@@ -88,7 +87,71 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><h3>问题描述</h3>
+
+<ul>
+<li><p>Hadoop Job在执行时非常缓慢（hadoop-1.0.0 和 hadoop-2.5.0集群中都有），且很多Map任务或reduce任务因为超时被kill掉，异常信息如下：
+<code>Task attempt_201406261559_894052_m_000269_1 failed to report status for 602 seconds. Killing!</code></p></li>
+<li><p>任务卡在初始化的过程中，也就是Map和Reduce的setup方法中
+<code>protected void setup(Context context ) throws IOException, InterruptedException { }
+</code></p></li>
+<li>任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时</li>
+</ul>
+
+
+<h3>问题分析及排查</h3>
+
+<ul>
+<li>首先排查GC导致的问题，检查其中几个任务的gc情况就可以得出是不是GC引起的</li>
+<li>因为任务是因为超时被kill的，也就是说任务在10分钟左右都没有进度，且任务的状态是在RUNNING状态，也就是说任务要么卡在setup初始化中，要么是卡在map方法或reduce方法中比较耗时的操作</li>
+<li>检查用户代码，主要查看setup方法和任务比较耗时的map或reduce方法</li>
+<li>发现在setup方法中，会去读取hdfs文件，文件大小在100M左右</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">read</span><span class="o">(</span><span class="n">String</span> <span class="n">filePath</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+</span><span class='line'>    <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Configuration</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">FSDataInputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">filePath</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">StringBuffer</span> <span class="n">rv</span><span class="o">=</span><span class="k">new</span> <span class="nf">StringBuffer</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">FileSystem</span> <span class="n">hdfs</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">in</span> <span class="o">=</span> <span class="n">hdfs</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="k">new</span> <span class="nf">Path</span><span class="o">(</span><span class="n">fileName</span><span class="o">));</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">aline</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">BufferedReader</span> <span class="n">bufread</span><span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">in</span><span class="o">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">));</span>
+</span><span class='line'>    <span class="k">while</span><span class="o">((</span><span class="n">aline</span><span class="o">=</span><span class="n">bufread</span><span class="o">.</span><span class="na">readLine</span><span class="o">())!=</span><span class="kc">null</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">rv</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">aline</span><span class="o">+</span><span class="s">&quot;\n&quot;</span><span class="o">);}</span>
+</span><span class='line'>    <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">rv</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>此时开始怀疑是不是因为读取文件而导致这个问题呢。于是分析计算，总计2400 Map个，3个文件的备份，每个备份要负责800个任务的读取操作，假设网络带宽为100M跑满，也就是1秒中最多只能给1个map输送数据，这样全部完成需要800秒，超过了10分钟，也就是任务被kill的原因（以上分析完全是理想的情况下，实际情况更复杂），这是去查看cache的文件在机器的备份情况，然后通过ganglia查看机器当时的网络消费（的确是跑满了网络带宽，而且持续时间超过了10分钟），因此判断是因为网络堵塞导致任务失败.</li>
+</ul>
+
+
+<h3>解决方法</h3>
+
+<ul>
+<li>最好使用DistributeCache来代替直接读取hdfs文件的操作，这样不仅可以接受网络带宽，还能减少任务初始化的时间，减少因为本任务对其他任务的影响</li>
+<li>次之方法是将文件的备份数增多，但是全部的网络消耗并没有节省，但是能够保证任务执行</li>
+</ul>
+
 </div>
 
 
@@ -106,6 +169,12 @@
 
 <time class='entry-date' datetime='2014-11-25T23:00:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 pm</span></time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/hadoop/'>hadoop</a>
+  
+</span>
 
 
     </p>
@@ -128,7 +197,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="Confession"></div>
+<div class="ds-thread" data-title="Task读取HDFS数据导致任务失败或延迟"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"chaozi"};
   (function() {
