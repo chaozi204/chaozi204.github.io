@@ -88,12 +88,16 @@
   </header>
 
 
-<div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：
-- 中文的字符集合为[\u4e00-\u9fa5]
-- 但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用
-例如：
-<code>sql
-select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
+<div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：</p>
+
+<ul>
+<li>中文的字符集合为[\u4e00-\u9fa5]</li>
+<li>但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用</li>
+</ul>
+
+
+<p>例如：
+<code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
 </div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-29T17:38:27+08:00</updated>
+  <updated>2014-11-29T17:41:08+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -18,12 +18,16 @@
     <link href="http://chaozi204.github.io/blog/2014/11/29/hive-chinese/"/>
     <updated>2014-11-29T17:34:37+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/11/29/hive-chinese</id>
-    <content type="html"><![CDATA[<p>利用Hive的正则匹配中文时需要注意：
-- 中文的字符集合为[\u4e00-\u9fa5]
-- 但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用
-例如：
-<code>sql
-select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
+    <content type="html"><![CDATA[<p>利用Hive的正则匹配中文时需要注意：</p>
+
+<ul>
+<li>中文的字符集合为[\u4e00-\u9fa5]</li>
+<li>但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用</li>
+</ul>
+
+
+<p>例如：
+<code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
 ]]></content>
   </entry>
   
