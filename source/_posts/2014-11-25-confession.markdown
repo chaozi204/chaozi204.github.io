@@ -15,7 +15,7 @@ keywords: hadoop distributecache
 `protected void setup(Context context ) throws IOException, InterruptedException { }
 `
 + 任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时
-
+<!-- more -->
 ### 问题分析及排查
 - 首先排查GC导致的问题，检查其中几个任务的gc情况就可以得出是不是GC引起的
 - 因为任务是因为超时被kill的，也就是说任务在10分钟左右都没有进度，且任务的状态是在RUNNING状态，也就是说任务要么卡在setup初始化中，要么是卡在map方法或reduce方法中比较耗时的操作

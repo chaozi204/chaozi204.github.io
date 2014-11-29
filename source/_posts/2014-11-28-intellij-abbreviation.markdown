@@ -5,9 +5,9 @@ date: 2014-11-28 19:02:22 +0800
 categories: Intellij
 comments: true
 keywords: java ide intellij 缩写
-categories: 
 ---
   缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13 
+<!-- more -->
 - 默认缩写在 Preference —> Live Templates 中,如图：
 ![image](/images/intellji/abbreviation_find.png)
 
