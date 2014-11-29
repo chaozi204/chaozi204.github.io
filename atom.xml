@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-11-29T17:15:46+08:00</updated>
+  <updated>2014-11-29T17:19:59+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -18,12 +18,15 @@
     <link href="http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation/"/>
     <updated>2014-11-28T19:02:22+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation</id>
-    <content type="html"><![CDATA[<p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13
-- 默认缩写在 Preference —> Live Templates 中,如图：
-<img src="http://chaozi204.github.io/images/intellji/abbreviation_find.png" alt="image" /></p>
+    <content type="html"><![CDATA[<p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13</p>
+
+<!-- more -->
+
 
 <ul>
-<li>自定义Abbreviation（缩写）过程：</li>
+<li><p>默认缩写在 Preference —> Live Templates 中,如图：
+<img src="http://chaozi204.github.io/images/intellji/abbreviation_find.png" alt="image" /></p></li>
+<li><p>自定义Abbreviation（缩写）过程：</p></li>
 <li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
 <li>点击图中右上角的 ’+’ 号</li>
 <li>选择Live Template</li>
@@ -52,6 +55,9 @@
 </code></p></li>
 <li>任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时</li>
 </ul>
+
+
+<!-- more -->
 
 
 <h3>问题分析及排查</h3>
