@@ -9,7 +9,12 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content=" 缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13 ">
+  <meta name="description" content="利用Hive的正则匹配中文时需要注意：
+- 中文的字符集合为[\u4e00-\u9fa5]
+- 但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用
+例如：
+sql
+select title from vid_title where type='my' and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +71,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+        
+        
+          | <a href="/blog/2014/11/29/hive-chinese/#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：
+- 中文的字符集合为[\u4e00-\u9fa5]
+- 但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用
+例如：
+<code>sql
+select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -163,6 +205,7 @@
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/hadoop/'>hadoop (1)</a></li>
+<li class='category'><a href='/blog/categories/hive/'>hive (1)</a></li>
 <li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
 
   </ul>
@@ -170,6 +213,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a>

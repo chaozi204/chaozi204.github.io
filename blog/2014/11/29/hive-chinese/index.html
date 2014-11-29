@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - 超子博客</title>
+  <title>Hive正则匹配中文问题 - 超子博客</title>
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="Blog Archive 2014 Hive正则匹配中文问题
-Nov 29 2014 posted in hive Intellij Idea 自定义缩写
-Nov 28 2014 posted in intellij Task读取HDFS数据导致任务失败或延迟
-Nov 25 2014 &hellip;">
-  
+  <meta name="description" content="somethings for hive work">
+  <meta name="keywords" content="hive 正则 中文">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +18,7 @@ Nov 25 2014 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chaozi204.github.io/blog/archives">
+  <link rel="canonical" href="http://chaozi204.github.io/blog/2014/11/29/hive-chinese">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="超子博客" type="application/atom+xml">
@@ -68,65 +65,98 @@ Nov 25 2014 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Hive正则匹配中文问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+        
+        
+          | <a href="#comments">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
-
-  
-  <h2>2014</h2>
-
-<article>
-  
-<h1><a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a></h1>
-<time datetime="2014-11-29T17:34:37+08:00" pubdate><span class='month'>Nov</span> <span class='day'>29</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/hive/'>hive</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a></h1>
-<time datetime="2014-11-28T19:02:22+08:00" pubdate><span class='month'>Nov</span> <span class='day'>28</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/intellij/'>intellij</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/11/25/confession/">Task读取HDFS数据导致任务失败或延迟</a></h1>
-<time datetime="2014-11-25T23:00:37+08:00" pubdate><span class='month'>Nov</span> <span class='day'>25</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/hadoop/'>hadoop</a></span>
-</footer>
-
-
-</article>
-
+<div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：
+- 中文的字符集合为[\u4e00-\u9fa5]
+- 但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用
+例如：
+<code>sql
+select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">超子</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/hive/'>hive</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/28/intellij-abbreviation/" title="Previous Post: intellij idea 自定义缩写">&laquo; intellij idea 自定义缩写</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Hive正则匹配中文问题"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaozi"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END -->
+
+</div>
+  </section>
 
 </div>
 
