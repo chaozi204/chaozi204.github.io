@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Date与Calendar对于周信息表示的差异 - 超子博客</title>
+  <meta name="author" content="超子">
+
+  
+  <meta name="description" content="最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。 项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get( &hellip;">
+  <meta name="keywords" content="Java Date Calerdar week">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="超子博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="/css/css1.css" rel="stylesheet" type="text/css">
+<link href="/css/css2.css" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">超子博客</a></h1>
+  
+    <h2>好记性，不如烂笔头</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://wen.lu/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:chaozi204.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Date与Calendar对于周信息表示的差异</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+        
+        
+          | <a href="#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>  最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。
+  项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：
+Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)
+Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</p>
+
+<!-- more -->
+
+
+<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码
+  &#8220;` java
+    public static void dateDesc(){
+    Date date = new Date();
+    //Date 类的getDay方法，返回的周时从 周日，周一 &hellip; 周六
+    //对应的数字表示为 0，1&hellip;6
+    int week1 = date.getDay();//今天周五</p>
+
+<pre><code>Calendar calendar = Calendar.getInstance();
+//Calendar类获取的周信息是从周日，周一 ... 周六
+//对应的数字表示是从 1，2...7
+int week2 = calendar.get(Calendar.DAY_OF_WEEK);//周五
+
+System.out.println("Week1="+week1);
+System.out.println("Week2="+week2);
+</code></pre>
+
+<p>  }
+  &#8220;`</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">超子</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/09/log4j-stack/" title="Previous Post: log4j 打印异常堆栈信息">&laquo; log4j 打印异常堆栈信息</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Date与Calendar对于周信息表示的差异"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chaozi"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END -->
+
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 超子 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -9,31 +9,7 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="Log4j打印日子的代码： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-public class TestLog { private static Logger log = Logger.getLogger( &hellip;">
+  <meta name="description" content="最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。 项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +66,46 @@ public class TestLog { private static Logger log = Logger.getLogger( &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+        
+        
+          | <a href="/blog/2014/12/19/date-calendar-of-java/#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。
+  项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：
+Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)
+Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/12/19/date-calendar-of-java/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -170,26 +186,14 @@ public class TestLog { private static Logger log = Logger.getLogger( &hellip;">
 
 <p>代码中test1 和test2 打印区别是：
 test1() 会打印出Exception e的异常堆栈信息，
-test2()只会打印出Exception 的 message 信息
-其结果：</p>
+test2()只会打印出Exception 的 message 信息</p>
 
-<p>`
-14/12/09 19:14:57 ERROR common.TestLog:</p>
-
-<p>-&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</p>
-
-<p>java.lang.ArithmeticException: / by zero
-    at com.flyover.test.common.TestLog.test1(TestLog.java:19)
-    at com.flyover.test.common.TestLog.main(TestLog.java:12)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke(Method.java:606)
-    at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
-14/12/09 19:14:57 ERROR common.TestLog: java.lang.ArithmeticException: / by zero
-`</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/12/09/log4j-stack/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -334,13 +338,17 @@ test2()只会打印出Exception 的 message 信息
     <li class='category'><a href='/blog/categories/hadoop/'>hadoop (1)</a></li>
 <li class='category'><a href='/blog/categories/hive/'>hive (1)</a></li>
 <li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
-<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (2)</a></li>
 
   </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/12/09/log4j-stack/">Log4j 打印异常堆栈信息</a>
