@@ -39,6 +39,7 @@ public class TestLog {
 代码中test1 和test2 打印区别是：
 test1() 会打印出Exception e的异常堆栈信息，
 test2()只会打印出Exception 的 message 信息
+<!-- more -->
 其结果：
 
 `
