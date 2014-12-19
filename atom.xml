@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-12-19T23:15:23+08:00</updated>
+  <updated>2014-12-19T23:28:08+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -18,10 +18,17 @@
     <link href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java/"/>
     <updated>2014-12-19T23:02:20+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java</id>
-    <content type="html"><![CDATA[<p>  最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。
-  项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：
-Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)
-Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</p>
+    <content type="html"><![CDATA[<p>  最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。</p>
+
+
+<p> 项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：</p>
+
+
+<ul>
+<li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
+<li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</li>
+</ul>
+
 
 <!-- more -->
 
