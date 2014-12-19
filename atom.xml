@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-12-19T23:28:08+08:00</updated>
+  <updated>2014-12-19T23:32:40+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -18,40 +18,29 @@
     <link href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java/"/>
     <updated>2014-12-19T23:02:20+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java</id>
-    <content type="html"><![CDATA[<p>  最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。</p>
-
-
-<p> 项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：</p>
-
-
-<ul>
-<li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
-<li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</li>
-</ul>
-
+    <content type="html"><![CDATA[<p>最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。</br>
+项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别表示为：
+* Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)
+* Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</p>
 
 <!-- more -->
 
 
-<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码
-  &#8220;` java
-    public static void dateDesc(){
+<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码\
+  <code>java
+  public static void dateDesc(){
     Date date = new Date();
-    //Date 类的getDay方法，返回的周时从 周日，周一 &hellip; 周六
-    //对应的数字表示为 0，1&hellip;6
-    int week1 = date.getDay();//今天周五</p>
-
-<pre><code>Calendar calendar = Calendar.getInstance();
-//Calendar类获取的周信息是从周日，周一 ... 周六
-//对应的数字表示是从 1，2...7
-int week2 = calendar.get(Calendar.DAY_OF_WEEK);//周五
-
-System.out.println("Week1="+week1);
-System.out.println("Week2="+week2);
-</code></pre>
-
-<p>  }
-  &#8220;`</p>
+    //Date 类的getDay方法，返回的周时从 周日，周一 ... 周六
+    //对应的数字表示为 0，1...6
+    int week1 = date.getDay();//今天周五
+    Calendar calendar = Calendar.getInstance();
+    //Calendar类获取的周信息是从周日，周一 ... 周六
+    //对应的数字表示是从 1，2...7
+    int week2 = calendar.get(Calendar.DAY_OF_WEEK);//周五
+    System.out.println("Week1="+week1);
+    System.out.println("Week2="+week2);
+  }
+ </code></p>
 ]]></content>
   </entry>
   
