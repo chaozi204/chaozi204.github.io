@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2014-12-20T00:05:56+08:00</updated>
+  <updated>2015-01-09T10:02:03+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Shell 技巧]]></title>
+    <link href="http://chaozi204.github.io/blog/2015/01/09/bash-tips/"/>
+    <updated>2015-01-09T09:52:33+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2015/01/09/bash-tips</id>
+    <content type="html"><![CDATA[<p>记录工作中常用且常忘的那些方法</p>
+
+<blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
+</span><span class='line'><span class="nv">var2</span><span class="o">=</span>1
+</span><span class='line'><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rcfile-assistant-compression]]></title>
+    <link href="http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression/"/>
+    <updated>2015-01-08T18:37:59+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Date与Calendar对于周信息表示的差异]]></title>

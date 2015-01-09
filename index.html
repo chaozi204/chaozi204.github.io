@@ -9,7 +9,14 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar &hellip;">
+  <meta name="description" content="记录工作中常用且常忘的那些方法 bash中取由变量生成的变量的值 1
+2
+3
+4
+var1=&quot;123&quot;
+var2=1
+gen_var=sql$var2
+echo $((gen_var)) ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +73,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-09T09:52:33+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:52 am</span></time>
+        
+        
+          | <a href="/blog/2015/01/09/bash-tips/#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>记录工作中常用且常忘的那些方法</p>
+
+<blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
+</span><span class='line'><span class="nv">var2</span><span class="o">=</span>1
+</span><span class='line'><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/08/rcfile-assistant-compression/">Rcfile-assistant-compression</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-08T18:37:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/08/rcfile-assistant-compression/#comments">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -342,12 +426,21 @@ test2()只会打印出Exception 的 message 信息</p>
 <li class='category'><a href='/blog/categories/hive/'>hive (1)</a></li>
 <li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
 <li class='category'><a href='/blog/categories/java/'>java (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
 
   </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/08/rcfile-assistant-compression/">Rcfile-assistant-compression</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a>
@@ -359,14 +452,6 @@ test2()只会打印出Exception 的 message 信息</p>
     
       <li class="post">
         <a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/25/confession/">Task读取HDFS数据导致任务失败或延迟</a>
       </li>
     
   </ul>
@@ -409,7 +494,7 @@ test2()只会打印出Exception 的 message 信息</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - 超子 -
+  Copyright &copy; 2015 - 超子 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

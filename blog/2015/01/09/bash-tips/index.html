@@ -5,12 +5,19 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hive正则匹配中文问题 - 超子博客</title>
+  <title>Shell 技巧 - 超子博客</title>
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="somethings for hive work">
-  <meta name="keywords" content="hive 正则 中文">
+  <meta name="description" content="记录工作中常用且常忘的那些方法 bash中取由变量生成的变量的值 1
+2
+3
+4
+var1=&quot;123&quot;
+var2=1
+gen_var=sql$var2
+echo $((gen_var)) ">
+  <meta name="keywords" content="bash shell tips">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +25,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chaozi204.github.io/blog/2014/11/29/hive-chinese">
+  <link rel="canonical" href="http://chaozi204.github.io/blog/2015/01/09/bash-tips">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="超子博客" type="application/atom+xml">
@@ -69,7 +76,7 @@
   
   <header>
     
-      <h1 class="entry-title">Hive正则匹配中文问题</h1>
+      <h1 class="entry-title">Shell 技巧</h1>
     
     
       <p class="meta">
@@ -78,7 +85,7 @@
 
 
 
-<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+<time class='entry-date' datetime='2015-01-09T09:52:33+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:52 am</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -88,16 +95,20 @@
   </header>
 
 
-<div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：</p>
+<div class="entry-content"><p>记录工作中常用且常忘的那些方法</p>
 
-<ul>
-<li>中文的字符集合为[\u4e00-\u9fa5]</li>
-<li>但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用</li>
-</ul>
+<blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
+</span><span class='line'><span class="nv">var2</span><span class="o">=</span>1
+</span><span class='line'><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>例如：
-<code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
 </div>
 
 
@@ -113,12 +124,12 @@
 
 
 
-<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+<time class='entry-date' datetime='2015-01-09T09:52:33+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:52 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/hive/'>hive</a>
+    <a class='category' href='/blog/categories/shell/'>shell</a>
   
 </span>
 
@@ -134,35 +145,13 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/28/intellij-abbreviation/" title="Previous Post: intellij idea 自定义缩写">&laquo; intellij idea 自定义缩写</a>
+        <a class="basic-alignment left" href="/blog/2015/01/08/rcfile-assistant-compression/" title="Previous Post: rcfile-assistant-compression">&laquo; rcfile-assistant-compression</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/12/09/log4j-stack/" title="Next Post: log4j 打印异常堆栈信息">log4j 打印异常堆栈信息 &raquo;</a>
       
     </p>
   </footer>
 </article>
 
-
-  <section>
-    <h1>Comments</h1>
-    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="Hive正则匹配中文问题"></div>
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"chaozi"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script>
-<!-- Duoshuo Comment END -->
-
-</div>
-  </section>
 
 </div>
 

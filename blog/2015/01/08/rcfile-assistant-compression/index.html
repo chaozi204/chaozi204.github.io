@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Date与Calendar对于周信息表示的差异 - 超子博客</title>
+  <title>Rcfile-assistant-compression - 超子博客</title>
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar &hellip;">
-  <meta name="keywords" content="Java Date Calerdar week">
+  <meta name="description" content="
+">
+  
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java">
+  <link rel="canonical" href="http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="超子博客" type="application/atom+xml">
@@ -69,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">Date与Calendar对于周信息表示的差异</h1>
+      <h1 class="entry-title">Rcfile-assistant-compression</h1>
     
     
       <p class="meta">
@@ -78,7 +79,7 @@
 
 
 
-<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+<time class='entry-date' datetime='2015-01-08T18:37:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -88,28 +89,7 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>   最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p></blockquote>
-
-<ul>
-<li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
-<li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</p>
-
-<pre><code class="`` java">  public static void dateDesc(){
-    Date date = new Date();
-    int week1 = date.getDay();
-    Calendar calendar = Calendar.getInstance();
-    int week2 = calendar.get(Calendar.DAY_OF_WEEK);
-    System.out.println("Week1="+week1);
-    System.out.println("Week2="+week2);
-  }
-</code></pre>
+<div class="entry-content">
 </div>
 
 
@@ -125,14 +105,8 @@
 
 
 
-<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+<time class='entry-date' datetime='2015-01-08T18:37:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/java/'>java</a>
-  
-</span>
 
 
     </p>
@@ -146,10 +120,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/12/09/log4j-stack/" title="Previous Post: log4j 打印异常堆栈信息">&laquo; log4j 打印异常堆栈信息</a>
+        <a class="basic-alignment left" href="/blog/2014/12/19/date-calendar-of-java/" title="Previous Post: Date与Calendar对于周信息表示的差异">&laquo; Date与Calendar对于周信息表示的差异</a>
       
       
-        <a class="basic-alignment right" href="/blog/2015/01/08/rcfile-assistant-compression/" title="Next Post: rcfile-assistant-compression">rcfile-assistant-compression &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/01/09/bash-tips/" title="Next Post: Shell 技巧">Shell 技巧 &raquo;</a>
       
     </p>
   </footer>
@@ -159,7 +133,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="Date与Calendar对于周信息表示的差异"></div>
+<div class="ds-thread" data-title="Rcfile-assistant-compression"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"chaozi"};
   (function() {
