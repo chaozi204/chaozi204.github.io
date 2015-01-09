@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Shell 技巧"
+date: 2015-01-09 09:52:33 +0800
+comments: shell tips in work
+categories: shell
+keywords: bash shell tips
+---
+记录工作中常用且常忘的那些方法
+
+> bash中取由变量生成的变量的值
+
+``` bash
+	var1="123"
+	var2=1
+	gen_var=sql$var2
+	echo $((gen_var))
+```
