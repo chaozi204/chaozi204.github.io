@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hive | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/hive/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2015-01-09T10:02:03+08:00</updated>
+  <updated>2015-01-10T23:15:23+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[利用RCFile的特性，提供压缩算法的压缩率]]></title>
+    <link href="http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression/"/>
+    <updated>2015-01-08T18:37:59+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression</id>
+    <content type="html"><![CDATA[<pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了非常严肃的系统瓶颈。
+无意中同事发现他的同一份业务数据使用不同的压缩产生了非常大的差异。 一个使用LZO压缩的，一份使用hadoop默认的Deflate压缩的。
+经过我们分析，得出了利用rcfile存储特性（行列混合存储）可以帮我们节省大量的存储空间，当然这个是非常巧合的，因为日志记录相似性非常高。
+利用distribute by + sort by 将非常类似的数据存储到同一个reduce中，再利用rcfile混合存储+压缩算法，就可以大大节省了存储空间。
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hive正则匹配中文问题]]></title>
