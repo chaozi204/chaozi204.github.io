@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2015-01-12T15:04:06+08:00</updated>
+  <updated>2015-01-12T15:08:58+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -30,6 +30,13 @@
 </span><span class='line'><span class="nv">var2</span><span class="o">=</span>1
 </span><span class='line'><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
 </span><span class='line'><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>bash中取脚本的当前路径</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>

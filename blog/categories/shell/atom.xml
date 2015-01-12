@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Shell | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2015-01-12T15:04:06+08:00</updated>
+  <updated>2015-01-12T15:08:58+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -26,6 +26,11 @@
     var2=1
     gen_var=sql$var2
     echo $((gen_var))
+</code></pre>
+
+<blockquote><p>bash中取脚本的当前路径</p></blockquote>
+
+<pre><code class="bash">    dir=$(cd `dirname $0`;pwd)
 </code></pre>
 ]]></content>
   </entry>
