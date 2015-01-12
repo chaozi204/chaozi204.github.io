@@ -16,3 +16,9 @@ keywords: bash shell tips
 	gen_var=sql$var2
 	echo $((gen_var))
 ```
+
+> bash中取脚本的当前路径
+
+``` bash
+	dir=$(cd `dirname $0`;pwd)
+```

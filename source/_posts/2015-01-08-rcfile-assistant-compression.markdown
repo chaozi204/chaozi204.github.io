@@ -1,7 +1,15 @@
 ---
 layout: post
-title: "rcfile-assistant-compression"
+title: "利用RCFile的特性提高压缩率"
 date: 2015-01-08 18:37:59 +0800
 comments: true
-categories: 
+categories: hive
 ---
+
+	最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
+	或者强制进行删除文件。
+	同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常，于是调查原因发现：
+	1. 日志相似性比较（这是业务本身的特性）
+	2. 生成结果数据是，利用李distribute by + sort by的hive特性，将相似的记录放在同一个reduce中，并根据特性字段排序
+	3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了
+
