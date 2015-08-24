@@ -9,8 +9,8 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="距离天津市开发区爆炸点不到3公里的人的真实记录。
-2015-08-12 这个看似没有什么特殊的日子，对于天津滨海新区开发区的人们来说，却是少永生难忘。而我这个刚刚落户在天津，刚刚住进自己买的房子的新天津人，更加对这个日子难以忘怀，铭刻在骨与血里。 8月12日，深夜11点33分钟，刚洗过澡， &hellip;">
+  <meta name="description" content="问题描述 集群中所有的nodemanager节点机器总是会报出警告信息 警告信息：
+2015-07-29 00:44:57,785 WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.logaggregation. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T18:04:00+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>问题描述</h3>
+
+<p>集群中所有的nodemanager节点机器总是会报出警告信息</p>
+
+<blockquote><p>警告信息：
+2015-07-29 00:44:57,785 WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.logaggregation.LogAggregationService: Remote Root Log Dir [/yarn-logs] already exist, but with incorrect permissions. Expected: [rwxrwxrwt], Found: [rwxr-xr-x]. The cluster may have problems with multiple users.</p></blockquote>
+
+<p>从警告的内容来看，似乎是目录的权限不匹配导致的，为了防止这个警告产生对集群的影响，于是排查本异常产生的原因。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/24/log-aggregation-permission-warning/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -452,7 +493,7 @@ test2()只会打印出Exception 的 message 信息</p>
     <section>
   <h1>文章分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/hadoop/'>hadoop (1)</a></li>
+    <li class='category'><a href='/blog/categories/hadoop/'>hadoop (2)</a></li>
 <li class='category'><a href='/blog/categories/hive/'>hive (2)</a></li>
 <li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
 <li class='category'><a href='/blog/categories/java/'>java (2)</a></li>
@@ -464,6 +505,10 @@ test2()只会打印出Exception 的 message 信息</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/14/bo-zha-1/">生命中那颤抖的一刻 2015-08-12</a>
@@ -479,10 +524,6 @@ test2()只会打印出Exception 的 message 信息</p>
     
       <li class="post">
         <a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/09/log4j-stack/">Log4j 打印异常堆栈信息</a>
       </li>
     
   </ul>
