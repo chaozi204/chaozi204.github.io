@@ -9,8 +9,7 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="问题描述 集群中所有的nodemanager节点机器总是会报出警告信息 警告信息：
-2015-07-29 00:44:57,785 WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.logaggregation. &hellip;">
+  <meta name="description" content="Hive Hook 部署方式： 本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。每个组或每个团队之间的udf彼此不受影响。相信安装部署见：https://github. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +65,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/11/06/hive-udf-deploy/">Hive Udf 部署方式小结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-06T18:37:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Hive Hook 部署方式：</h3>
+
+<pre><code>本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。每个组或每个团队之间的udf彼此不受影响。相信安装部署见：https://github.com/chaozi204/hive-udf-hook
+</code></pre>
+
+<h3>临时UDF方法：</h3>
+
+<pre><code>这个是最常见的Hive使用方式，通过hive的命令来完成UDF的部署
+hive&gt; add jar xxxx.jar
+hive&gt; CREATE TEMPORARY FUNCTION function_name AS 'udf类路径';
+</code></pre>
+
+<p>这种方法的的缺点很明显就是每次都需要使用这两个命令来完成操作</p>
+
+<h3>永久部署UDF方法</h3>
+
+<pre><code>这种方式是 hive 0.13版本以后开始支持的注册方法，详情可以参考官方说明。
+使用方式下如：
+CREATE FUNCTION [db_name.]function_name AS [USING JAR|FILE|ARCHIVE 'file_uri' [, JAR|FILE|ARCHIVE 'file_uri'] ];
+例如：
+CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn2.tvhadoop.sohuno.com/user/hive/udf/vr-hive-udf-0.0.1.jar'
+</code></pre>
+
+<p>这种方法的优点为全局可见，一次添加完成即可永久使用。支持数据库级别的函数名称。之所以能够永久性的部署，是因为hive将函数的数据存储到了数据库表FUNCS和FUNC_RU中。通过desc function function_name命令也可以知道这个函数是否是通过永久方式注册的</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -507,6 +558,10 @@ test2()只会打印出Exception 的 message 信息</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/11/06/hive-udf-deploy/">Hive Udf 部署方式小结</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a>
       </li>
     
@@ -520,10 +575,6 @@ test2()只会打印出Exception 的 message 信息</p>
     
       <li class="post">
         <a href="/blog/2015/01/08/rcfile-assistant-compression/">利用RCFile的特性提高压缩率</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a>
       </li>
     
   </ul>
