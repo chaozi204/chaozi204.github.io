@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hive | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/hive/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2015-11-06T19:20:22+08:00</updated>
+  <updated>2015-11-06T19:22:19+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -21,11 +21,10 @@
     <content type="html"><![CDATA[<h3>Hive Hook 部署方式：</h3>
 
 <pre><code>本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，
-</code></pre>
-
-<p>无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。
+无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。
 每个组或每个团队之间的udf彼此不受影响。
-相信安装部署见：<a href="https://github.com/chaozi204/hive-udf-hook">https://github.com/chaozi204/hive-udf-hook</a></p>
+相信安装部署见：https://github.com/chaozi204/hive-udf-hook
+</code></pre>
 
 <h3>临时UDF方法：</h3>
 
