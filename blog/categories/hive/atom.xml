@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hive | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/hive/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2015-11-06T19:16:16+08:00</updated>
+  <updated>2015-11-06T19:20:22+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hive Udf 部署方式小结]]></title>
+    <link href="http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy/"/>
+    <updated>2015-11-06T18:37:17+08:00</updated>
+    <id>http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy</id>
+    <content type="html"><![CDATA[<h3>Hive Hook 部署方式：</h3>
+
+<pre><code>本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，
+</code></pre>
+
+<p>无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。
+每个组或每个团队之间的udf彼此不受影响。
+相信安装部署见：<a href="https://github.com/chaozi204/hive-udf-hook">https://github.com/chaozi204/hive-udf-hook</a></p>
+
+<h3>临时UDF方法：</h3>
+
+<pre><code>这个是最常见的Hive使用方式，通过hive的命令来完成UDF的部署
+hive&gt; add jar xxxx.jar
+hive&gt; CREATE TEMPORARY FUNCTION function_name AS 'udf类路径';
+</code></pre>
+
+<p>这种方法的的缺点很明显就是每次都需要使用这两个命令来完成操作</p>
+
+<h3>永久部署UDF方法</h3>
+
+<pre><code>这种方式是 hive 0.13版本以后开始支持的注册方法，详情可以参考官方说明。
+使用方式下如：
+CREATE FUNCTION [db_name.]function_name AS [USING JAR|FILE|ARCHIVE 'file_uri' [, JAR|FILE|ARCHIVE 'file_uri'] ];
+例如：
+CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn2.tvhadoop.sohuno.com/user/hive/udf/vr-hive-udf-0.0.1.jar'
+</code></pre>
+
+<p>这种方法的优点为全局可见，一次添加完成即可永久使用。支持数据库级别的函数名称。之所以能够永久性的部署，是因为hive将函数的数据存储到了数据库表FUNCS和FUNC_RU中。通过desc function function_name命令也可以知道这个函数是否是通过永久方式注册的</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用RCFile的特性提高压缩率]]></title>
