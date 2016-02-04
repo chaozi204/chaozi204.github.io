@@ -31,7 +31,7 @@ snappy是google的开源项目，目前代码已经迁移到github上，
 #####3 部署
 1. 将新编译的hadoop native库下的内容替换线上的。
 2. 修改hadoop的配置属性，增加hadoop对snappy encode和decode类的配置
-	```
+	```xml
 	<property>
 	  <name>io.compression.codecs</name>
       <value>
@@ -49,11 +49,29 @@ org.apache.hadoop.io.compress.SnappyCodec
 
 #####4 解疑答惑
 1. 网上很多文章说还要安装hadoop-snappy，我想说的是，这个是针对hadoop v1的，因为hadoop v2中已经携带了snappy的decode和encode代码了。所以根本不需要安装这个jar，而且安装后使用hadoop checknative -a会报错，错误如下：
-```Exception in thread "main" java.lang.NoSuchMethodError: 
-org.apache.hadoop.io.compress.SnappyCodec.isNativeCodeLoaded()Z        at org.apache.hadoop.util.NativeLibraryChecker.main(NativeLibraryChecker.java:82)
+``` java
+Exception in thread "main" java.lang.NoSuchMethodError: 
+org.apache.hadoop.io.compress.SnappyCodec.isNativeCodeLoaded()Z
+        at org.apache.hadoop.util.NativeLibraryChecker.main(NativeLibraryChecker.java:82)
 ```
 
 2. 如果snappy为安装好或安装成功，有可能出现的一种问题如下：
 
-``` java.lang.RuntimeException: native snappy library not available: this version of libhadoop was built without snappy support.        at org.apache.hadoop.io.compress.SnappyCodec.checkNativeCodeLoaded(SnappyCodec.java:64)        at org.apache.hadoop.io.compress.SnappyCodec.createDecompressor(SnappyCodec.java:201)        at org.apache.hadoop.io.compress.SnappyCodec.createInputStream(SnappyCodec.java:161)        at org.apache.hadoop.fs.shell.Display$Text.getInputStream(Display.java:150)        at org.apache.hadoop.fs.shell.Display$Cat.processPath(Display.java:98)        at org.apache.hadoop.fs.shell.Command.processPaths(Command.java:306)        at org.apache.hadoop.fs.shell.Command.processPathArgument(Command.java:278)        at org.apache.hadoop.fs.shell.Command.processArgument(Command.java:260)        at org.apache.hadoop.fs.shell.Command.processArguments(Command.java:244)        at org.apache.hadoop.fs.shell.Command.processRawArguments(Command.java:190)        at org.apache.hadoop.fs.shell.Command.run(Command.java:154)        at org.apache.hadoop.fs.FsShell.run(FsShell.java:287)        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:70)        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:84)        at org.apache.hadoop.fs.FsShell.main(FsShell.java:340)
+``` java 
+java.lang.RuntimeException: native snappy library not available: this version of libhadoop was built without snappy support.
+        at org.apache.hadoop.io.compress.SnappyCodec.checkNativeCodeLoaded(SnappyCodec.java:64)
+        at org.apache.hadoop.io.compress.SnappyCodec.createDecompressor(SnappyCodec.java:201)
+        at org.apache.hadoop.io.compress.SnappyCodec.createInputStream(SnappyCodec.java:161)
+        at org.apache.hadoop.fs.shell.Display$Text.getInputStream(Display.java:150)
+        at org.apache.hadoop.fs.shell.Display$Cat.processPath(Display.java:98)
+        at org.apache.hadoop.fs.shell.Command.processPaths(Command.java:306)
+        at org.apache.hadoop.fs.shell.Command.processPathArgument(Command.java:278)
+        at org.apache.hadoop.fs.shell.Command.processArgument(Command.java:260)
+        at org.apache.hadoop.fs.shell.Command.processArguments(Command.java:244)
+        at org.apache.hadoop.fs.shell.Command.processRawArguments(Command.java:190)
+        at org.apache.hadoop.fs.shell.Command.run(Command.java:154)
+        at org.apache.hadoop.fs.FsShell.run(FsShell.java:287)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:70)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:84)
+        at org.apache.hadoop.fs.FsShell.main(FsShell.java:340)
 ```
