@@ -4,7 +4,7 @@
   <title><![CDATA[超子博客]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:05:48+08:00</updated>
+  <updated>2016-02-04T17:53:06+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Hadoop V2 Snappy 安装及部署]]></title>
+    <title type="html"><![CDATA[hadoop v2 snappy 安装及部署]]></title>
     <link href="http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install/"/>
     <updated>2015-11-10T11:19:54+08:00</updated>
     <id>http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install</id>
@@ -124,7 +124,7 @@ org.apache.hadoop.io.compress.SnappyCodec
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Hive Udf 部署方式小结]]></title>
+    <title type="html"><![CDATA[hive udf 部署方式小结]]></title>
     <link href="http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy/"/>
     <updated>2015-11-06T18:37:17+08:00</updated>
     <id>http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy</id>
@@ -159,7 +159,7 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Yarn 日志聚集权限警告]]></title>
+    <title type="html"><![CDATA[yarn 日志聚集权限警告]]></title>
     <link href="http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning/"/>
     <updated>2015-08-24T18:04:00+08:00</updated>
     <id>http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning</id>
@@ -373,7 +373,7 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Log4j 打印异常堆栈信息]]></title>
+    <title type="html"><![CDATA[log4j 打印异常堆栈信息]]></title>
     <link href="http://chaozi204.github.io/blog/2014/12/09/log4j-stack/"/>
     <updated>2014-12-09T19:02:24+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/12/09/log4j-stack</id>
@@ -476,7 +476,7 @@ test2()只会打印出Exception 的 message 信息</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Intellij Idea 自定义缩写]]></title>
+    <title type="html"><![CDATA[intellij idea 自定义缩写]]></title>
     <link href="http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation/"/>
     <updated>2014-11-28T19:02:22+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation</id>

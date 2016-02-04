@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Hadoop | 超子博客]]></title>
+  <title><![CDATA[Category: hadoop | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/hadoop/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:05:48+08:00</updated>
+  <updated>2016-02-04T17:53:06+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Hadoop V2 Snappy 安装及部署]]></title>
+    <title type="html"><![CDATA[hadoop v2 snappy 安装及部署]]></title>
     <link href="http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install/"/>
     <updated>2015-11-10T11:19:54+08:00</updated>
     <id>http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install</id>
@@ -99,7 +99,7 @@ org.apache.hadoop.io.compress.SnappyCodec.isNativeCodeLoaded()Z
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Yarn 日志聚集权限警告]]></title>
+    <title type="html"><![CDATA[yarn 日志聚集权限警告]]></title>
     <link href="http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning/"/>
     <updated>2015-08-24T18:04:00+08:00</updated>
     <id>http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning</id>

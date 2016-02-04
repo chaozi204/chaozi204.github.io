@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | 超子博客]]></title>
+  <title><![CDATA[Category: java | 超子博客]]></title>
   <link href="http://chaozi204.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:05:48+08:00</updated>
+  <updated>2016-02-04T17:53:06+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -44,7 +44,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Log4j 打印异常堆栈信息]]></title>
+    <title type="html"><![CDATA[log4j 打印异常堆栈信息]]></title>
     <link href="http://chaozi204.github.io/blog/2014/12/09/log4j-stack/"/>
     <updated>2014-12-09T19:02:24+08:00</updated>
     <id>http://chaozi204.github.io/blog/2014/12/09/log4j-stack</id>

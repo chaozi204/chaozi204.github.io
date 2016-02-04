@@ -9,10 +9,9 @@
   <meta name="author" content="超子">
 
   
-  <meta name="description" content="最近同事有需求要使用在hadoop 2.5.1的集群上使用snappy压缩。因为之前没有使用过snappy，所以没有在现有的集群上配置相关信息，于是乎就在官方和google查了一下相关的配置信息。之所以写这篇文章，主要是因为网上发的文章（尤其是中国的某些网站）的内容不靠谱，没有仔细阅读文档， &hellip;">
+  <meta name="description" content="且行且珍惜">
   
 
-  <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,74 +19,128 @@
   
   <link rel="canonical" href="http://chaozi204.github.io">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  
   <link href="/atom.xml" rel="alternate" title="超子博客" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+    <script src="/javascripts/libs/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
   
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">超子博客</a></h1>
-  
-    <h2>好记性，不如烂笔头</h2>
-  
-</hgroup>
+<body  >
+	
+	<nav role="navigation">
+	  	  <div class="col-md-12 navbar navbar-inverse">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">超子博客</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-inverse-collapse">
+        <ul class="nav navbar-nav">
+          		      <li><a href="/blog/archives">Archives</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Category<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/hadoop/index.html">hadoop <span class="badge">3</span></a></li>
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/intellij/index.html">intellij <span class="badge">1</span></a></li>
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/hive/index.html">hive <span class="badge">3</span></a></li>
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/java/index.html">java <span class="badge">2</span></a></li>
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/shell/index.html">shell <span class="badge">1</span></a></li>
+            
+              
+              <li><a style="text-transform:uppercase;" href="/blog/categories/life/index.html">life <span class="badge">1</span></a></li>
+            
+            </ul>
+          </li>
+        </ul>
+        
+          <form class="navbar-form navbar-left" action="https://wen.lu/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:chaozi204.github.io" />
+              <input class="form-control col-lg-8" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+          
+        <ul class="nav navbar-nav navbar-right left-syms">  
+          <li><a href="http://github.com/chaozi204"><i class="fa fa-github"></i> <span>Github</span></a></li>
+          <li><a href="http://plus.google.com/"><i class="fa fa-google-plus-square"></i> <span>Google Plus</span></a></li>
+          <li><a href="http://twitter.com/"><i class="fa fa-twitter"></i> <span>Twitter</span></a></li>
+          <li><a href="http://chaozi204.github.io//atom.xml"><i class="fa fa-rss"></i> <span>RSS Feed</span></a></li>
+        </ul>
+      </div>
+    </div>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+	</nav>
   
-</ul>
+	<div class="col-md-12">
+        <!-- Main Header Nav -->
+        <div class="row jumb-bot">
+            <div class="col-md-1"></div>
+            <div class="jumbotron jumb-bot-jumbu col-md-10">
+              
+               
+                <h1>超子博客</h1>
+                <p>好记性，不如烂笔头</p>
   
-<form action="https://wen.lu/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:chaozi204.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
+              
+            </div>            
+            <div class="col-md-1"></div>
+        </div>
+        <!-- End Main Header Nav -->
+        
+        <div class="row">
+        	<div class="col-md-1"></div>
+            <div class="col-md-7">
+                
   
   
-  
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/11/10/hadoop-v2-snappy-install/">Hadoop V2 Snappy 安装及部署</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/11/10/hadoop-v2-snappy-install/">Hadoop V2 Snappy 安装及部署</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-11-10T11:19:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:19 am</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-11-10T11:19:54+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>最近同事有需求要使用在hadoop 2.5.1的集群上使用snappy压缩。因为之前没有使用过snappy，所以没有在现有的集群上配置相关信息，于是乎就在官方和google查了一下相关的配置信息。之所以写这篇文章，主要是因为网上发的文章（尤其是中国的某些网站）的内容不靠谱，没有仔细阅读文档，就随便写一些不经过实践的文章来忽悠大家，导致大家如果根据他们的方式来安装和使用，可能会导致莫名其妙的问题。闲话不说了，写下我的操作过程</p></blockquote>
+     
+  
+  
+    <p><blockquote><p>最近同事有需求要使用在hadoop 2.5.1的集群上使用snappy压缩。因为之前没有使用过snappy，所以没有在现有的集群上配置相关信息，于是乎就在官方和google查了一下相关的配置信息。之所以写这篇文章，主要是因为网上发的文章（尤其是中国的某些网站）的内容不靠谱，没有仔细阅读文档，就随便写一些不经过实践的文章来忽悠大家，导致大家如果根据他们的方式来安装和使用，可能会导致莫名其妙的问题。闲话不说了，写下我的操作过程</p></blockquote>
 
 <h5>1 安装 snappy lib库</h5>
 
@@ -100,39 +153,46 @@ make install
 </code></pre>
 
 <p>这样默认安装snappy库到/usr/local/lib下
- </div>
+ </p>
+    
+    
+    
+      <a href="/blog/2015/11/10/hadoop-v2-snappy-install/" class="btn btn-primary btn-sm">Read More</a>
+    
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/10/hadoop-v2-snappy-install/">Read on &rarr;</a>
-    </footer>
-  
+</div>
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/11/06/hive-udf-deploy/">Hive Udf 部署方式小结</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/11/06/hive-udf-deploy/">Hive Udf 部署方式小结</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-11-06T18:37:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-11-06T18:37:17+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Hive Hook 部署方式：</h3>
+     
+  
+  
+    <p><h3>Hive Hook 部署方式：</h3>
 
 <pre><code>本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，
 无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。
@@ -159,35 +219,44 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 </code></pre>
 
 <p>这种方法的优点为全局可见，一次添加完成即可永久使用。支持数据库级别的函数名称。之所以能够永久性的部署，是因为hive将函数的数据存储到了数据库表FUNCS和FUNC_RU中。通过desc function function_name命令也可以知道这个函数是否是通过永久方式注册的</p>
+</p>
+    
+    
+    
+  
 </div>
-  
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-08-24T18:04:00+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:04 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-08-24T18:04:00+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>问题描述</h3>
+     
+  
+  
+    <p><h3>问题描述</h3>
 
 <p>集群中所有的nodemanager节点机器总是会报出警告信息</p>
 
@@ -196,39 +265,46 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 
 <p>从警告的内容来看，似乎是目录的权限不匹配导致的，为了防止这个警告产生对集群的影响，于是排查本异常产生的原因。</p>
 
+</p>
+    
+    
+    
+      <a href="/blog/2015/08/24/log-aggregation-permission-warning/" class="btn btn-primary btn-sm">Read More</a>
+    
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/24/log-aggregation-permission-warning/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/bo-zha-1/">生命中那颤抖的一刻 2015-08-12</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/08/14/bo-zha-1/">生命中那颤抖的一刻 2015-08-12</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-08-14T10:51:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:51 am</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-08-14T10:51:23+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>距离天津市开发区爆炸点不到3公里的人的真实记录。
+     
+  
+  
+    <p><pre><code>距离天津市开发区爆炸点不到3公里的人的真实记录。
 2015-08-12 这个看似没有什么特殊的日子，对于天津滨海新区开发区的人们来说，却是少永生难忘。而我这个刚刚落户在天津，刚刚住进自己买的房子的新天津人，更加对这个日子难以忘怀，铭刻在骨与血里。  
 8月12日，深夜11点33分钟，刚洗过澡，沉溺在同事推荐的象棋闯关游戏中，突然间一声轰鸣，不是很响把我从游戏中拉了出来，我从卧室走到客厅，看到房子没有什么事情便安心下来，以为是什么施工造成的不明响声。不以为意的我又回到了卧室
      就在我刚躺在床上的那一刻，一道煞白的光照亮了我的卧室，白光是那么的异常，一股妖异的感觉油然而生。紧跟着房屋的剧烈晃动让我的脑子处于短路中，此时的我比傻子和白痴都不如，我已经不知道思考了，用老话说就是我的魂丢了。接下来发生的事情把魂叫了回来，却在我的记忆中留下了最深的”沟壑“       一股高频的声音冲进了我的家里，我赶紧冲进了客厅，厨房门的玻璃破碎在屋里的每一个角落，厨房的门破烂的横躺在客厅中央，景象我无法想象是什么鬼造成的。高频的声音仍在持续，不知道是惊吓害怕，还是本能，我无法抑制住自己，跟着那高频声音我疯狂的喊叫着，就像如果在用生命去将自己的高音提升到巅峰。此时，我是那么的无知，那么的无助，那么的无力。
@@ -245,35 +321,44 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
  花了足足50分钟，我总于到了同事住的地方，此时已是凌晨1:20左右了，我们睡意全无。同事也吓坏了，我们通过说话来缓解紧张的情绪和对未知的恐惧。我们不停的刷新着微博，微信，QQ，朋友圈和新闻等App，想要尽可能的了解更多的消息，以便我们能够应对未知的危险。
  时间一秒一秒的过去，社交软件中不断传来朋友，同事的状况。也不断的有人再转发消息，预测各种各样的状况。我向我的妻子和家人汇报了一下平安，慢慢的我们开始讨论天明后我们的去处。讨论各种最坏的打算，慢慢的我们平静了下来，合上眼睛入睡了。
 </code></pre>
+</p>
+    
+    
+    
+  
 </div>
-  
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-01-09T09:52:33+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:52 am</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-01-09T09:52:33+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>记录工作中常用且常忘的那些方法</p>
+     
+  
+  
+    <p><p>记录工作中常用且常忘的那些方法</p>
 
 <blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
 
@@ -294,70 +379,88 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
+</p>
+    
+    
+    
+  
 </div>
-  
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/01/08/rcfile-assistant-compression/">利用RCFile的特性提高压缩率</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2015/01/08/rcfile-assistant-compression/">利用RCFile的特性提高压缩率</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2015-01-08T18:37:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:37 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2015-01-08T18:37:59+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
+     
+  
+  
+    <p><pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
 或者强制进行删除文件。
 同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常，于是调查原因发现：
 1. 日志相似性比较（这是业务本身的特性）
 2. 生成结果数据是，利用李distribute by + sort by的hive特性，将相似的记录放在同一个reduce中，并根据特性字段排序
 3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了
 </code></pre>
+</p>
+    
+    
+    
+  
 </div>
-  
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2014/12/19/date-calendar-of-java/">Date与Calendar对于周信息表示的差异</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2014-12-19T23:02:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:02 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-12-19T23:02:20+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>   最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p></blockquote>
+     
+  
+  
+    <p><blockquote><p>   最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p></blockquote>
 
 <ul>
 <li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
@@ -365,39 +468,46 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 </ul>
 
 
+</p>
+    
+    
+    
+      <a href="/blog/2014/12/19/date-calendar-of-java/" class="btn btn-primary btn-sm">Read More</a>
+    
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/12/19/date-calendar-of-java/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/12/09/log4j-stack/">Log4j 打印异常堆栈信息</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2014/12/09/log4j-stack/">Log4j 打印异常堆栈信息</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2014-12-09T19:02:24+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:02 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-12-09T19:02:24+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Log4j打印日子的代码：</p>
+     
+  
+  
+    <p><p>Log4j打印日子的代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -454,39 +564,46 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 test1() 会打印出Exception e的异常堆栈信息，
 test2()只会打印出Exception 的 message 信息</p>
 
+</p>
+    
+    
+    
+      <a href="/blog/2014/12/09/log4j-stack/" class="btn btn-primary btn-sm">Read More</a>
+    
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/12/09/log4j-stack/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2014/11/29/hive-chinese/">Hive正则匹配中文问题</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2014-11-29T17:34:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:34 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-11-29T17:34:37+08:00" pubdate data-updated="true"></time>
         
       </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>利用Hive的正则匹配中文时需要注意：</p>
+     
+  
+  
+    <p><p>利用Hive的正则匹配中文时需要注意：</p>
 
 <ul>
 <li>中文的字符集合为[\u4e00-\u9fa5]</li>
@@ -496,58 +613,76 @@ test2()只会打印出Exception 的 message 信息</p>
 
 <p>例如：
 <code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
+</p>
+    
+    
+    
+  
 </div>
-  
-  
 
-
-    </article>
+    
   
   
-    <article>
-      
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a></h1>
+        <div class="blog-post-small">
+  
+  
+    
+      <h3><a href="/blog/2014/11/28/intellij-abbreviation/">Intellij Idea 自定义缩写</a></h3>
     
     
-      <p class="meta">
+      <p><i class="fa fa-calendar"></i> 
         
 
 
 
 
-<time class='entry-date' datetime='2014-11-28T19:02:22+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:02 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-11-28T19:02:22+08:00" pubdate data-updated="true"></time>
         
       </p>
+     
+  
+  
+    <p><p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13</p>
+
+</p>
     
-  </header>
-
-
-  <div class="entry-content"><p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13</p>
-
+    
+    
+      <a href="/blog/2014/11/28/intellij-abbreviation/" class="btn btn-primary btn-sm">Read More</a>
+    
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/11/28/intellij-abbreviation/">Read on &rarr;</a>
-    </footer>
-  
 
+    
+  
+  <ul class="pager">
+    
+    <li class="previous"><a href="2">&larr; Older</a></li>
+    
+    <li><a href="/blog/archives">Blog Archives</a></li>
+    
+  </ul>
 
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-1"></div>
+        </div> 
+  		          <!-- Footer -->
+            <div class="row footer">
+              <div class="col-md-1"></div>
+              <div class="col-md-10">
+                  <div class="row">
+                    <section>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/hadoop/'>hadoop (3)</a></li>
@@ -559,76 +694,72 @@ test2()只会打印出Exception 的 message 信息</p>
 
   </ul>
 </section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+                     <div class="col-md-4">
+                      <h4>Recent Posts</h4>
+                        
+                        <ul>
+                          
+                            <li>
+                              <a href="/blog/2015/11/10/hadoop-v2-snappy-install/">hadoop v2 snappy 安装及部署</a>
+                            </li>
+                          
+                            <li>
+                              <a href="/blog/2015/11/06/hive-udf-deploy/">hive udf 部署方式小结</a>
+                            </li>
+                          
+                            <li>
+                              <a href="/blog/2015/08/24/log-aggregation-permission-warning/">yarn 日志聚集权限警告</a>
+                            </li>
+                          
+                            <li>
+                              <a href="/blog/2015/08/14/bo-zha-1/">生命中那颤抖的一刻 2015-08-12</a>
+                            </li>
+                          
+                            <li>
+                              <a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a>
+                            </li>
+                          
+                        </ul>
+                    </div>                    <div class="col-md-4">
+                      <h4>Github Repositories</h4>
+                      
+                      <ul id="gh_repos">
+                          <li class="loading">Status updating&#8230;</li>
+                            
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                  github.showRepos({
+                                      user: 'chaozi204',
+                                      count: 0,
+                                      skip_forks: false,
+                                      target: '#gh_repos'
+                                  });
+                              });
+                            </script>
+                            <script src="/javascripts/asides/github.js" type="text/javascript"> </script>
+                          
+                        </ul>
+                    </div>
+
+
+
+                  </div>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row end_footer">
+              <div class="col-md-1"></div>
+              <div class="col-md-6">
+                <p>Copyright &copy; 超子博客 2014 . Designed by <a target="_blank" href="http://github.com/pranavrajs">Pranav Raj S</a></p>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-1"></div>
+            </div>
+          <!-- End Footer -->
     
-      <li class="post">
-        <a href="/blog/2015/11/10/hadoop-v2-snappy-install/">Hadoop V2 Snappy 安装及部署</a>
-      </li>
     
-      <li class="post">
-        <a href="/blog/2015/11/06/hive-udf-deploy/">Hive Udf 部署方式小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/24/log-aggregation-permission-warning/">Yarn 日志聚集权限警告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/14/bo-zha-1/">生命中那颤抖的一刻 2015-08-12</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/01/09/bash-tips/">Shell 技巧</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'chaozi204',
-            count: 0,
-            skip_forks: false,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - 超子 -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
+ 
 
 
 
@@ -640,5 +771,9 @@ test2()只会打印出Exception 的 message 信息</p>
 
 
 
+
+
+
+  	</div>  
 </body>
 </html>
