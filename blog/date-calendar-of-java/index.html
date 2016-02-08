@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Date与Calendar对于周信息表示的差异 - </title>
+  <meta name="author" content="超子">
+
+  
+  <meta name="description" content="分享">
+  <meta name="keywords" content="Java Date Calerdar week">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chaozi204.github.io/blog/date-calendar-of-java">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="" type="application/atom+xml">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/"></a>
+
+      <div class="nav-collapse">
+        <script src="js/bootstrap.min.js"></script>
+<link href="stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+<ul class="nav">
+  <li><a href="/"><i class="fa fa-home fa-lg"></i>首页</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-bars fa-lg"></i>文章列表</a></li>
+  <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-archive fa-lg"></i>文章分类</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li>    <li class='category'><a href='/blog/categories/hadoop/'>hadoop (3)</a></li>
+<li class='category'><a href='/blog/categories/hive/'>hive (3)</a></li>
+<li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+ </li>
+      </ul>
+  </li>
+
+  <li><a href="/about"><i class="fa fa-user-md fa-lg"></i>About Me</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:chaozi204.github.io" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container" style="width: 1000px">
+    <!--div class="row-fluid"-->
+    <div>
+      <script src="js/bootstrap.min.js"></script>
+
+<article class="hentry span9" role="article">
+
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Date与Calendar对于周信息表示的差异</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+2014-12-19
+        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">超子</span></span>
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote>
+  <p>最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p>
+</blockquote>
+
+<ul>
+  <li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
+  <li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)
+<!-- more -->
+  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</li>
+</ul>
+
+<p><code>java
+  public static void dateDesc(){
+    Date date = new Date();
+    int week1 = date.getDay();
+    Calendar calendar = Calendar.getInstance();
+    int week2 = calendar.get(Calendar.DAY_OF_WEEK);
+    System.out.println("Week1="+week1);
+    System.out.println("Week2="+week2);
+  }
+ </code></p>
+</div>
+
+
+  <footer>
+    
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/log4j-stack/" title="Previous Post:
+        log4j 打印异常堆栈信息">&laquo; log4j 打印异常堆栈信息</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/rcfile-assistant-compression/"
+        title="Next Post: 利用RCFile的特性提高压缩率">利用RCFile的特性提高压缩率
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+
+<aside class="sidebar-nav span3">
+  
+    
+  
+</aside>
+
+
+
+  <section>
+     <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/date-calendar-of-java" data-title="Date与Calendar对于周信息表示的差异" data-url="http://chaozi204.github.io/blog/date-calendar-of-java/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chaozi204"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+
+<p>
+  Copyright &copy; 2016 - 超子 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256430882'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256430882' type='text/javascript'%3E%3C/script%3E"));</script>
+</p>
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

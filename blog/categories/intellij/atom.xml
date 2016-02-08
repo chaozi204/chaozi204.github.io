@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: intellij | 超子博客]]></title>
+  <title><![CDATA[Category: intellij | ]]></title>
   <link href="http://chaozi204.github.io/blog/categories/intellij/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:53:06+08:00</updated>
+  <updated>2016-02-08T13:13:07+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -15,28 +15,28 @@
   
   <entry>
     <title type="html"><![CDATA[intellij idea 自定义缩写]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation/"/>
+    <link href="http://chaozi204.github.io/blog/intellij-abbreviation/"/>
     <updated>2014-11-28T19:02:22+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation</id>
-    <content type="html"><![CDATA[<p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13</p>
-
+    <id>http://chaozi204.github.io/blog/intellij-abbreviation</id>
+    <content type="html"><![CDATA[<p>缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13 
 <!-- more -->
-
+- 默认缩写在 Preference —&gt; Live Templates 中,如图：
+<img src="/images/intellji/abbreviation_find.png" alt="image" /></p>
 
 <ul>
-<li><p>默认缩写在 Preference —> Live Templates 中,如图：
-<img src="/images/intellji/abbreviation_find.png" alt="image" /></p></li>
-<li><p>自定义Abbreviation（缩写）过程：</p></li>
-<li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
-<li>点击图中右上角的 ’+’ 号</li>
-<li>选择Live Template</li>
-<li>根据要求输入缩写名称和代表的真实名称</li>
-<li>选择定义的 Applicable Contexts （也就是选择应用到的语言中）</li>
-<li><p>最后结果如下所示(这里以定义java中的 main 为例 )
-<img src="/images/intellji/abbreviation_custom.png" alt="image" /></p></li>
-<li><p>完成</p></li>
+  <li>自定义Abbreviation（缩写）过程：
+    <ol>
+      <li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
+      <li>点击图中右上角的 ’+’ 号</li>
+      <li>选择Live Template</li>
+      <li>根据要求输入缩写名称和代表的真实名称</li>
+      <li>选择定义的 Applicable Contexts （也就是选择应用到的语言中）</li>
+      <li>最后结果如下所示(这里以定义java中的 main 为例 )
+ <img src="/images/intellji/abbreviation_custom.png" alt="image" /></li>
+    </ol>
+  </li>
+  <li>完成</li>
 </ul>
-
 ]]></content>
   </entry>
   

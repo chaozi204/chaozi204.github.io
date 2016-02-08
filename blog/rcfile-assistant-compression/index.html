@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>利用RCFile的特性提高压缩率 - </title>
+  <meta name="author" content="超子">
+
+  
+  <meta name="description" content="分享">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chaozi204.github.io/blog/rcfile-assistant-compression">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="" type="application/atom+xml">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/"></a>
+
+      <div class="nav-collapse">
+        <script src="js/bootstrap.min.js"></script>
+<link href="stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+<ul class="nav">
+  <li><a href="/"><i class="fa fa-home fa-lg"></i>首页</a></li>
+  <li><a href="/blog/archives"><i class="fa fa-bars fa-lg"></i>文章列表</a></li>
+  <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-archive fa-lg"></i>文章分类</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li>    <li class='category'><a href='/blog/categories/hadoop/'>hadoop (3)</a></li>
+<li class='category'><a href='/blog/categories/hive/'>hive (3)</a></li>
+<li class='category'><a href='/blog/categories/intellij/'>intellij (1)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (1)</a></li>
+ </li>
+      </ul>
+  </li>
+
+  <li><a href="/about"><i class="fa fa-user-md fa-lg"></i>About Me</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:chaozi204.github.io" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container" style="width: 1000px">
+    <!--div class="row-fluid"-->
+    <div>
+      <script src="js/bootstrap.min.js"></script>
+
+<article class="hentry span9" role="article">
+
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">利用RCFile的特性提高压缩率</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+2015-01-08
+        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">超子</span></span>
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
+或者强制进行删除文件。
+同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常，于是调查原因发现：
+1. 日志相似性比较（这是业务本身的特性）
+2. 生成结果数据是，利用李distribute by + sort by的hive特性，将相似的记录放在同一个reduce中，并根据特性字段排序
+3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了
+</code></pre>
+
+</div>
+
+
+  <footer>
+    
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/date-calendar-of-java/" title="Previous Post:
+        Date与Calendar对于周信息表示的差异">&laquo; Date与Calendar对于周信息表示的差异</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/bash-tips/"
+        title="Next Post: Shell 技巧">Shell 技巧
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+
+<aside class="sidebar-nav span3">
+  
+    
+  
+</aside>
+
+
+
+  <section>
+     <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/rcfile-assistant-compression" data-title="利用RCFile的特性提高压缩率" data-url="http://chaozi204.github.io/blog/rcfile-assistant-compression/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chaozi204"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+
+<p>
+  Copyright &copy; 2016 - 超子 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256430882'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256430882' type='text/javascript'%3E%3C/script%3E"));</script>
+</p>
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[超子博客]]></title>
+  <title><![CDATA[]]></title>
   <link href="http://chaozi204.github.io/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:53:06+08:00</updated>
+  <updated>2016-02-08T13:13:07+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -15,15 +15,23 @@
   
   <entry>
     <title type="html"><![CDATA[hadoop v2 snappy 安装及部署]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install/"/>
+    <link href="http://chaozi204.github.io/blog/hadoop-v2-snappy-install/"/>
     <updated>2015-11-10T11:19:54+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/11/10/hadoop-v2-snappy-install</id>
-    <content type="html"><![CDATA[<blockquote><p>最近同事有需求要使用在hadoop 2.5.1的集群上使用snappy压缩。因为之前没有使用过snappy，所以没有在现有的集群上配置相关信息，于是乎就在官方和google查了一下相关的配置信息。之所以写这篇文章，主要是因为网上发的文章（尤其是中国的某些网站）的内容不靠谱，没有仔细阅读文档，就随便写一些不经过实践的文章来忽悠大家，导致大家如果根据他们的方式来安装和使用，可能会导致莫名其妙的问题。闲话不说了，写下我的操作过程</p></blockquote>
+    <id>http://chaozi204.github.io/blog/hadoop-v2-snappy-install</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#snappy-lib" id="markdown-toc-snappy-lib">1 安装 snappy lib库</a></li>
+  <li><a href="#hadoop" id="markdown-toc-hadoop">2 重新编译hadoop</a></li>
+  <li><a href="#section" id="markdown-toc-section">3 部署</a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">4 解疑答惑</a></li>
+</ul>
 
-<h5>1 安装 snappy lib库</h5>
+<blockquote>
+  <p>最近同事有需求要使用在hadoop 2.5.1的集群上使用snappy压缩。因为之前没有使用过snappy，所以没有在现有的集群上配置相关信息，于是乎就在官方和google查了一下相关的配置信息。之所以写这篇文章，主要是因为网上发的文章（尤其是中国的某些网站）的内容不靠谱，没有仔细阅读文档，就随便写一些不经过实践的文章来忽悠大家，导致大家如果根据他们的方式来安装和使用，可能会导致莫名其妙的问题。闲话不说了，写下我的操作过程</p>
+</blockquote>
 
+<h5 id="snappy-lib">1 安装 snappy lib库</h5>
 <p>snappy是google的开源项目，目前代码已经迁移到github上，
-地址为：<a href="http://google.github.io/snappy/">http://google.github.io/snappy/</a> 。不过比较操蛋的事情是，git上的代码里面没有configure文件，导致我这种c菜鸟不会整了，于是只能在中国的不靠谱网站-csdn找到一个版本，比如我现在用的1.1.2版本。剩下的就是编译安装snappy库了，过程如下(前提你已经安装了相关的依赖库，这里不罗嗦)：</br></p>
+地址为：http://google.github.io/snappy/ 。不过比较操蛋的事情是，git上的代码里面没有configure文件，导致我这种c菜鸟不会整了，于是只能在中国的不靠谱网站-csdn找到一个版本，比如我现在用的1.1.2版本。剩下的就是编译安装snappy库了，过程如下(前提你已经安装了相关的依赖库，这里不罗嗦)：&lt;/br&gt;</p>
 
 <pre><code>./configure
 make
@@ -33,8 +41,7 @@ make install
 <p>这样默认安装snappy库到/usr/local/lib下
  <!-- more --></p>
 
-<h5>2 重新编译hadoop</h5>
-
+<h5 id="hadoop">2 重新编译hadoop</h5>
 <p>编译前建议仔细阅读Hadoop的BUILDING文件，使用如下命令进行编译</p>
 
 <pre><code>mvn clean package -Pdist,native -DskipTests -Dtar  -Drequire.snappy  -Dbundle.snappy -Dsnappy.lib=/usr/local/lib
@@ -42,111 +49,101 @@ make install
 
 <p>利用这个命令编译后的hadoop就会将snappy的native库拷贝到了hadoop/lib/native下面了，并且libhadoop的so文件中也会携带了相关的信息。</p>
 
-<h5>3 部署</h5>
-
+<h5 id="section">3 部署</h5>
 <ol>
-<li>将新编译的hadoop native库下的内容替换线上的。</li>
-<li>修改hadoop的配置属性，增加hadoop对snappy encode和decode类的配置
- <code>xml
- &lt;property&gt;
-   &lt;name&gt;io.compression.codecs&lt;/name&gt;
-   &lt;value&gt;
-org.apache.hadoop.io.compress.DefaultCodec,
-org.apache.hadoop.io.compress.GzipCodec,
-org.apache.hadoop.io.compress.BZip2Codec,
-com.hadoop.compression.lzo.LzoCodec,
-com.hadoop.compression.lzo.LzopCodec,
-org.apache.hadoop.io.compress.SnappyCodec
-  &lt;/value&gt;
-&lt;/property&gt;
-</code></li>
-<li>重启集群</li>
-<li>测试snappy。方法很简单，找一个snappy的文件，利用hadoop fs -text如果能打开则证明安装完成。或者使用hadoop的命令 hadoop checknative -a</li>
+  <li>将新编译的hadoop native库下的内容替换线上的。</li>
+  <li>修改hadoop的配置属性，增加hadoop对snappy encode和decode类的配置</li>
+</ol>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>configuration </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="XML"><span class="line"><span class="nt">&lt;property&gt;</span>
+</span><span class="line">  <span class="nt">&lt;name&gt;</span>io.compression.codecs<span class="nt">&lt;/name&gt;</span>
+</span><span class="line">  <span class="nt">&lt;value&gt;</span>org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec, org.apache.hadoop.io.compress.BZip2Codec,com.hadoop.compression.lzo.LzoCodec, com.hadoop.compression.lzo.LzopCodec, org.apache.hadoop.io.compress.SnappyCodec <span class="nt">&lt;/value&gt;</span>
+</span><span class="line"> <span class="nt">&lt;/property&gt;</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>重启集群</li>
+  <li>测试snappy。方法很简单，找一个snappy的文件，利用hadoop fs -text如果能打开则证明安装完成。或者使用hadoop的命令 hadoop checknative -a</li>
 </ol>
 
-
-<h5>4 解疑答惑</h5>
+<h5 id="section-1">4 解疑答惑</h5>
+<ol>
+  <li>网上很多文章说还要安装hadoop-snappy，我想说的是，这个是针对hadoop v1的，因为hadoop v2中已经携带了snappy的decode和encode代码了。所以根本不需要安装这个jar，而且安装后使用hadoop checknative -a会报错，错误如下：</li>
+</ol>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>异常信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Exception in thread "main" java.lang.NoSuchMethodError: 
+</span><span class="line">org.apache.hadoop.io.compress.SnappyCodec.isNativeCodeLoaded()Z
+</span><span class="line">        at org.apache.hadoop.util.NativeLibraryChecker.main(NativeLibraryChecker.java:82)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ol>
-<li>网上很多文章说还要安装hadoop-snappy，我想说的是，这个是针对hadoop v1的，因为hadoop v2中已经携带了snappy的decode和encode代码了。所以根本不需要安装这个jar，而且安装后使用hadoop checknative -a会报错，错误如下：</li>
+  <li>如果snappy为安装好或安装成功，有可能出现的一种问题如下：</li>
 </ol>
 
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Exception</span> <span class="n">in</span> <span class="n">thread</span> <span class="s">&quot;main&quot;</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">NoSuchMethodError</span><span class="o">:</span>
-</span><span class='line'><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">compress</span><span class="o">.</span><span class="na">SnappyCodec</span><span class="o">.</span><span class="na">isNativeCodeLoaded</span><span class="o">()</span><span class="n">Z</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">NativeLibraryChecker</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">NativeLibraryChecker</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">82</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>如果snappy为安装好或安装成功，有可能出现的一种问题如下：</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">RuntimeException</span><span class="o">:</span> <span class="kd">native</span> <span class="n">snappy</span> <span class="n">library</span> <span class="n">not</span> <span class="nl">available:</span> <span class="k">this</span> <span class="n">version</span> <span class="n">of</span> <span class="n">libhadoop</span> <span class="n">was</span> <span class="n">built</span> <span class="n">without</span> <span class="n">snappy</span> <span class="n">support</span><span class="o">.</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">compress</span><span class="o">.</span><span class="na">SnappyCodec</span><span class="o">.</span><span class="na">checkNativeCodeLoaded</span><span class="o">(</span><span class="n">SnappyCodec</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">64</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">compress</span><span class="o">.</span><span class="na">SnappyCodec</span><span class="o">.</span><span class="na">createDecompressor</span><span class="o">(</span><span class="n">SnappyCodec</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">201</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">compress</span><span class="o">.</span><span class="na">SnappyCodec</span><span class="o">.</span><span class="na">createInputStream</span><span class="o">(</span><span class="n">SnappyCodec</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">161</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Display$Text</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">(</span><span class="n">Display</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">150</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Display$Cat</span><span class="o">.</span><span class="na">processPath</span><span class="o">(</span><span class="n">Display</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">98</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">processPaths</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">306</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">processPathArgument</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">278</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">processArgument</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">260</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">processArguments</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">244</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">processRawArguments</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">190</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">shell</span><span class="o">.</span><span class="na">Command</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Command</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">154</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">FsShell</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">FsShell</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">287</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">ToolRunner</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ToolRunner</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">70</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">ToolRunner</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ToolRunner</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">84</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">hadoop</span><span class="o">.</span><span class="na">fs</span><span class="o">.</span><span class="na">FsShell</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">FsShell</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">340</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>异常堆栈 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">java.lang.RuntimeException: native snappy library not available: this version of libhadoop was built without snappy support.
+</span><span class="line">        at org.apache.hadoop.io.compress.SnappyCodec.checkNativeCodeLoaded(SnappyCodec.java:64)
+</span><span class="line">        at org.apache.hadoop.io.compress.SnappyCodec.createDecompressor(SnappyCodec.java:201)
+</span><span class="line">        at org.apache.hadoop.io.compress.SnappyCodec.createInputStream(SnappyCodec.java:161)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Display$Text.getInputStream(Display.java:150)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Display$Cat.processPath(Display.java:98)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.processPaths(Command.java:306)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.processPathArgument(Command.java:278)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.processArgument(Command.java:260)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.processArguments(Command.java:244)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.processRawArguments(Command.java:190)
+</span><span class="line">        at org.apache.hadoop.fs.shell.Command.run(Command.java:154)
+</span><span class="line">        at org.apache.hadoop.fs.FsShell.run(FsShell.java:287)
+</span><span class="line">        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:70)
+</span><span class="line">        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:84)
+</span><span class="line">        at org.apache.hadoop.fs.FsShell.main(FsShell.java:340)</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[hive udf 部署方式小结]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy/"/>
+    <link href="http://chaozi204.github.io/blog/hive-udf-deploy/"/>
     <updated>2015-11-06T18:37:17+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/11/06/hive-udf-deploy</id>
-    <content type="html"><![CDATA[<h3>Hive Hook 部署方式：</h3>
-
+    <id>http://chaozi204.github.io/blog/hive-udf-deploy</id>
+    <content type="html"><![CDATA[<h3 id="hive-hook-">Hive Hook 部署方式：</h3>
 <pre><code>本方式为我根据hive的hook的特性开发一种部署方式，优点是针对单个客户端，
 无需修改HIVE的源码，纯外接的方式来完成udf的部署，比临时udfs方便快捷且永久，且容易管理。
 每个组或每个团队之间的udf彼此不受影响。
 相信安装部署见：https://github.com/chaozi204/hive-udf-hook
 </code></pre>
 
-<h3>临时UDF方法：</h3>
+<p><!-- more --></p>
 
+<h3 id="udf">临时UDF方法：</h3>
 <pre><code>这个是最常见的Hive使用方式，通过hive的命令来完成UDF的部署
 hive&gt; add jar xxxx.jar
-hive&gt; CREATE TEMPORARY FUNCTION function_name AS 'udf类路径';
+hive&gt; CREATE TEMPORARY FUNCTION function_name AS 'udf类路径'; 这种方法的的缺点很明显就是每次都需要使用这两个命令来完成操作
 </code></pre>
 
-<p>这种方法的的缺点很明显就是每次都需要使用这两个命令来完成操作</p>
-
-<h3>永久部署UDF方法</h3>
-
+<h3 id="udf-1">永久部署UDF方法</h3>
 <pre><code>这种方式是 hive 0.13版本以后开始支持的注册方法，详情可以参考官方说明。
 使用方式下如：
 CREATE FUNCTION [db_name.]function_name AS [USING JAR|FILE|ARCHIVE 'file_uri' [, JAR|FILE|ARCHIVE 'file_uri'] ];
@@ -160,113 +157,104 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
   
   <entry>
     <title type="html"><![CDATA[yarn 日志聚集权限警告]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning/"/>
+    <link href="http://chaozi204.github.io/blog/log-aggregation-permission-warning/"/>
     <updated>2015-08-24T18:04:00+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/08/24/log-aggregation-permission-warning</id>
-    <content type="html"><![CDATA[<h3>问题描述</h3>
+    <id>http://chaozi204.github.io/blog/log-aggregation-permission-warning</id>
+    <content type="html"><![CDATA[<h3 id="section">问题描述</h3>
+<p>集群中所有的nodemanager节点机器总是会报出警告信息
+&gt; 警告信息：
+2015-07-29 00:44:57,785 WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.logaggregation.LogAggregationService: Remote Root Log Dir [/yarn-logs] already exist, but with incorrect permissions. Expected: [rwxrwxrwt], Found: [rwxr-xr-x]. The cluster may have problems with multiple users.</p>
 
-<p>集群中所有的nodemanager节点机器总是会报出警告信息</p>
-
-<blockquote><p>警告信息：
-2015-07-29 00:44:57,785 WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.logaggregation.LogAggregationService: Remote Root Log Dir [/yarn-logs] already exist, but with incorrect permissions. Expected: [rwxrwxrwt], Found: [rwxr-xr-x]. The cluster may have problems with multiple users.</p></blockquote>
-
-<p>从警告的内容来看，似乎是目录的权限不匹配导致的，为了防止这个警告产生对集群的影响，于是排查本异常产生的原因。</p>
-
+<p>从警告的内容来看，似乎是目录的权限不匹配导致的，为了防止这个警告产生对集群的影响，于是排查本异常产生的原因。
 <!-- more -->
-
-
-<h3>问题原因</h3>
-
-<p>产生警告的类为 LogAggregationService.java , 其中产生警告的代码为</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kt">void</span> <span class="nf">verifyAndCreateRemoteLogDir</span><span class="o">(</span><span class="n">Configuration</span> <span class="n">conf</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>  <span class="c1">// Checking the existence of the TLD</span>
-</span><span class='line'>  <span class="n">FileSystem</span> <span class="n">remoteFS</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">remoteFS</span> <span class="o">=</span> <span class="n">getFileSystem</span><span class="o">(</span><span class="n">conf</span><span class="o">);</span>
-</span><span class='line'>  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span><span class="s">&quot;Unable to get Remote FileSystem instance&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="kt">boolean</span> <span class="n">remoteExists</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">FsPermission</span> <span class="n">perms</span> <span class="o">=</span>
-</span><span class='line'>        <span class="n">remoteFS</span><span class="o">.</span><span class="na">getFileStatus</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span><span class="o">).</span><span class="na">getPermission</span><span class="o">();</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">(!</span><span class="n">perms</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">LOG</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&quot;Remote Root Log Dir [&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span>
-</span><span class='line'>          <span class="o">+</span> <span class="s">&quot;] already exist, but with incorrect permissions. &quot;</span>
-</span><span class='line'>          <span class="o">+</span> <span class="s">&quot;Expected: [&quot;</span> <span class="o">+</span> <span class="n">TLDIR_PERMISSIONS</span> <span class="o">+</span> <span class="s">&quot;], Found: [&quot;</span> <span class="o">+</span> <span class="n">perms</span>
-</span><span class='line'>          <span class="o">+</span> <span class="s">&quot;].&quot;</span> <span class="o">+</span> <span class="s">&quot; The cluster may have problems with multiple users.&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">remoteExists</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span>
-</span><span class='line'>        <span class="s">&quot;Failed to check permissions for dir [&quot;</span>
-</span><span class='line'>            <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">(!</span><span class="n">remoteExists</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&quot;Remote Root Log Dir [&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span>
-</span><span class='line'>        <span class="o">+</span> <span class="s">&quot;] does not exist. Attempting to create it.&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">Path</span> <span class="n">qualified</span> <span class="o">=</span>
-</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span><span class="o">.</span><span class="na">makeQualified</span><span class="o">(</span><span class="n">remoteFS</span><span class="o">.</span><span class="na">getUri</span><span class="o">(),</span>
-</span><span class='line'>              <span class="n">remoteFS</span><span class="o">.</span><span class="na">getWorkingDirectory</span><span class="o">());</span>
-</span><span class='line'>      <span class="n">remoteFS</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">(</span><span class="n">qualified</span><span class="o">,</span> <span class="k">new</span> <span class="nf">FsPermission</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">));</span>
-</span><span class='line'>      <span class="n">remoteFS</span><span class="o">.</span><span class="na">setPermission</span><span class="o">(</span><span class="n">qualified</span><span class="o">,</span> <span class="k">new</span> <span class="nf">FsPermission</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">));</span>
-</span><span class='line'>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span><span class="s">&quot;Failed to create remoteLogDir [&quot;</span>
-</span><span class='line'>          <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+### 问题原因
+产生警告的类为 LogAggregationService.java , 其中产生警告的代码为</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"> <span class="kt">void</span> <span class="nf">verifyAndCreateRemoteLogDir</span><span class="o">(</span><span class="n">Configuration</span> <span class="n">conf</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">  <span class="c1">// Checking the existence of the TLD</span>
+</span><span class="line">  <span class="n">FileSystem</span> <span class="n">remoteFS</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class="line">  <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">remoteFS</span> <span class="o">=</span> <span class="n">getFileSystem</span><span class="o">(</span><span class="n">conf</span><span class="o">);</span>
+</span><span class="line">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span><span class="s">&quot;Unable to get Remote FileSystem instance&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="kt">boolean</span> <span class="n">remoteExists</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class="line">  <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">FsPermission</span> <span class="n">perms</span> <span class="o">=</span>
+</span><span class="line">        <span class="n">remoteFS</span><span class="o">.</span><span class="na">getFileStatus</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span><span class="o">).</span><span class="na">getPermission</span><span class="o">();</span>
+</span><span class="line">    <span class="k">if</span> <span class="o">(!</span><span class="n">perms</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">))</span> <span class="o">{</span>
+</span><span class="line">      <span class="n">LOG</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&quot;Remote Root Log Dir [&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span>
+</span><span class="line">          <span class="o">+</span> <span class="s">&quot;] already exist, but with incorrect permissions. &quot;</span>
+</span><span class="line">          <span class="o">+</span> <span class="s">&quot;Expected: [&quot;</span> <span class="o">+</span> <span class="n">TLDIR_PERMISSIONS</span> <span class="o">+</span> <span class="s">&quot;], Found: [&quot;</span> <span class="o">+</span> <span class="n">perms</span>
+</span><span class="line">          <span class="o">+</span> <span class="s">&quot;].&quot;</span> <span class="o">+</span> <span class="s">&quot; The cluster may have problems with multiple users.&quot;</span><span class="o">);</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">remoteExists</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class="line">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span>
+</span><span class="line">        <span class="s">&quot;Failed to check permissions for dir [&quot;</span>
+</span><span class="line">            <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="k">if</span> <span class="o">(!</span><span class="n">remoteExists</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">LOG</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&quot;Remote Root Log Dir [&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span>
+</span><span class="line">        <span class="o">+</span> <span class="s">&quot;] does not exist. Attempting to create it.&quot;</span><span class="o">);</span>
+</span><span class="line">    <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">      <span class="n">Path</span> <span class="n">qualified</span> <span class="o">=</span>
+</span><span class="line">          <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span><span class="o">.</span><span class="na">makeQualified</span><span class="o">(</span><span class="n">remoteFS</span><span class="o">.</span><span class="na">getUri</span><span class="o">(),</span>
+</span><span class="line">              <span class="n">remoteFS</span><span class="o">.</span><span class="na">getWorkingDirectory</span><span class="o">());</span>
+</span><span class="line">      <span class="n">remoteFS</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">(</span><span class="n">qualified</span><span class="o">,</span> <span class="k">new</span> <span class="nf">FsPermission</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">));</span>
+</span><span class="line">      <span class="n">remoteFS</span><span class="o">.</span><span class="na">setPermission</span><span class="o">(</span><span class="n">qualified</span><span class="o">,</span> <span class="k">new</span> <span class="nf">FsPermission</span><span class="o">(</span><span class="n">TLDIR_PERMISSIONS</span><span class="o">));</span>
+</span><span class="line">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">      <span class="k">throw</span> <span class="k">new</span> <span class="nf">YarnRuntimeException</span><span class="o">(</span><span class="s">&quot;Failed to create remoteLogDir [&quot;</span>
+</span><span class="line">          <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">remoteRootLogDir</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>代码中的第11-17行中就是这个警告产生的过程。从代码不难看出，这个警告不会对系统运行产生影响，也不会给系统造成多大的负担。
 从代码的逻辑中，我们可以看出hadoop希望我们将聚合日志的目录（就是配置属性yarn.nodemanager.remote-app-log-dir指定的目录）设置为权限01777（其中1权限代码sticky bit），权限参考HDFS 权限说明 。而实际我们的集群因为保证完全的用户隔离和写安全，将日志聚合目录修改为了755权限（我们会单独为每个新用户创建相应的聚合目录），因此导致hadoop期望的权限和我们设置的权限不匹配，从而导致了问题的产生。</p>
 
-<h3>解决方法</h3>
-
+<h3 id="section-1">解决方法</h3>
 <p>解决方法1： 如果对系统的安全性要求没有特别的要求，可以完全将日志聚合目录的权限按hadoop的要求修改为01777权限，这个问题自然解决。</p>
 
 <p>解决方法2：在创建新用户的情况下，可以手动给每个用户创建对应的聚合目录，也不会影响聚合功能的使用。</p>
@@ -274,64 +262,41 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[生命中那颤抖的一刻 2015-08-12]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/08/14/bo-zha-1/"/>
-    <updated>2015-08-14T10:51:23+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/08/14/bo-zha-1</id>
-    <content type="html"><![CDATA[<pre><code>距离天津市开发区爆炸点不到3公里的人的真实记录。
-2015-08-12 这个看似没有什么特殊的日子，对于天津滨海新区开发区的人们来说，却是少永生难忘。而我这个刚刚落户在天津，刚刚住进自己买的房子的新天津人，更加对这个日子难以忘怀，铭刻在骨与血里。  
-8月12日，深夜11点33分钟，刚洗过澡，沉溺在同事推荐的象棋闯关游戏中，突然间一声轰鸣，不是很响把我从游戏中拉了出来，我从卧室走到客厅，看到房子没有什么事情便安心下来，以为是什么施工造成的不明响声。不以为意的我又回到了卧室
-     就在我刚躺在床上的那一刻，一道煞白的光照亮了我的卧室，白光是那么的异常，一股妖异的感觉油然而生。紧跟着房屋的剧烈晃动让我的脑子处于短路中，此时的我比傻子和白痴都不如，我已经不知道思考了，用老话说就是我的魂丢了。接下来发生的事情把魂叫了回来，却在我的记忆中留下了最深的”沟壑“       一股高频的声音冲进了我的家里，我赶紧冲进了客厅，厨房门的玻璃破碎在屋里的每一个角落，厨房的门破烂的横躺在客厅中央，景象我无法想象是什么鬼造成的。高频的声音仍在持续，不知道是惊吓害怕，还是本能，我无法抑制住自己，跟着那高频声音我疯狂的喊叫着，就像如果在用生命去将自己的高音提升到巅峰。此时，我是那么的无知，那么的无助，那么的无力。
- 声音大概持续了数秒中，短暂的大脑空白后，听到门外吵吵嚷嚷的声音我回复了意识。我急不可耐的穿起裤子拔腿就往外跑。什么都不知道的人们以为是地震发生了，大家慌乱的从安全梯往外面狂奔，三步并一步，生怕晚一点点，生命就会被埋没。
- 好在我住的楼层不高，很快就跑到了室外。外面熙熙攘攘的有了不少人，男女老少彼此见面就问是不是地震了？知道怎么回事吗？彼此从没有见过面或说过话的大家，就像是老朋友般彼此询问，生怕自己漏掉了什么什么天大的消息。分分钟的时间里人挤满了整个小区。大家衣着非常简单或家居服，有的甚至只穿着小内裤。
- 人们茫然的看着天空，因为那里有一片巨大的蘑菇云，白白的一直向空中升去，火光照亮了我们东北方向的整个天空。此时大家已经开始猜测到是什么地方发生了爆炸。大家开始疯狂的打电话，尝试去询问那边的朋友，亲人等。渐渐的噼里啪啦碎玻璃的声音开始从每栋楼传来，人们互相抱怨着
- “我们家坏了好多东西”，
- “我们家的门坏了2个”，
- “我们家窗户坏了，屋里东西坏了一地”
- 有的人再关爱的埋怨自己的亲人，“妈，以后再出现这样的事情，你别在想着拿钱包了，赶紧跑”
- 很快，就听到消防车和警车不停的呼叫着，向事发地驶去。有的人不知道哪里获得的消息，说东疆一个加油站着火爆炸了，恨恨的骂着那些在加油站吸烟的人。有的说是港口一个集装箱爆炸了，众说纷纭。我光着上身走向大街。大街上站满了人和车辆，有的再哭，有的忧愁，有的傻傻的看着天空中那朵云。
- 私家车不停的向外开去。渐渐的我突然听到有东西在唰唰的再落下，我心想坏了，这是个什么东西，别对人体有影响。我立即奔跑回到我的房子，找了一件长袖体恤穿上。开始思考我应该怎么办。我没有车铁定没有办法去非常远的地方，此时我想到我一个同事住在公司的公寓里，离这里有5，6公里远，于是我给他打个电话说我去他那里躲躲。其实我此时心里非常害怕，需要一个人陪着，让自己可以平静平静。
- 我草草的收拾了一下东西，关闭了所有的窗户，停掉了天然气，关闭了电闸，就往外面跑。此时的大街人多车更多，我尝试着打出租车，却没有一个车肯接我。我用滴滴叫车，没有一个司机应答。看着车辆不停的向三大街外开去，我开始步行的向外走。路上的人躲在路边不肯回住所，有的躲在车里，等待着消息。当我走到泰达医院附近时，路况已经瘫痪，交警在指挥着车辆。司机们争分多秒的往有空隙的地方钻。当我走到泰达医院门口附近时，发现有太多的人，身上再流血。这是我有生以来看的最血腥的场景了，我不敢把视线停留在他们身上，加快自己的脚步向前走。当我走了近2公里的距离后，总于搭上了一辆车。司机给我说千万别去事发附近，他刚从那边过来，太惨了，到处是烧焦的味道，房屋坏了一大片，赶紧往市里跑吧。
- 花了足足50分钟，我总于到了同事住的地方，此时已是凌晨1:20左右了，我们睡意全无。同事也吓坏了，我们通过说话来缓解紧张的情绪和对未知的恐惧。我们不停的刷新着微博，微信，QQ，朋友圈和新闻等App，想要尽可能的了解更多的消息，以便我们能够应对未知的危险。
- 时间一秒一秒的过去，社交软件中不断传来朋友，同事的状况。也不断的有人再转发消息，预测各种各样的状况。我向我的妻子和家人汇报了一下平安，慢慢的我们开始讨论天明后我们的去处。讨论各种最坏的打算，慢慢的我们平静了下来，合上眼睛入睡了。
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Shell 技巧]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/01/09/bash-tips/"/>
+    <link href="http://chaozi204.github.io/blog/bash-tips/"/>
     <updated>2015-01-09T09:52:33+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/01/09/bash-tips</id>
+    <id>http://chaozi204.github.io/blog/bash-tips</id>
     <content type="html"><![CDATA[<p>记录工作中常用且常忘的那些方法</p>
 
-<blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
+<blockquote>
+  <p>bash中取由变量生成的变量的值</p>
+</blockquote>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
-</span><span class='line'><span class="nv">var2</span><span class="o">=</span>1
-</span><span class='line'><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
-</span><span class='line'><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
+</span><span class="line"><span class="nv">var2</span><span class="o">=</span>1
+</span><span class="line"><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
+</span><span class="line"><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<blockquote>
+  <p>bash中取脚本的当前路径</p>
+</blockquote>
 
-<blockquote><p>bash中取脚本的当前路径</p></blockquote>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[利用RCFile的特性提高压缩率]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression/"/>
+    <link href="http://chaozi204.github.io/blog/rcfile-assistant-compression/"/>
     <updated>2015-01-08T18:37:59+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/01/08/rcfile-assistant-compression</id>
+    <id>http://chaozi204.github.io/blog/rcfile-assistant-compression</id>
     <content type="html"><![CDATA[<pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
 或者强制进行删除文件。
 同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常，于是调查原因发现：
@@ -339,28 +304,28 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
 2. 生成结果数据是，利用李distribute by + sort by的hive特性，将相似的记录放在同一个reduce中，并根据特性字段排序
 3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了
 </code></pre>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Date与Calendar对于周信息表示的差异]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java/"/>
+    <link href="http://chaozi204.github.io/blog/date-calendar-of-java/"/>
     <updated>2014-12-19T23:02:20+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java</id>
-    <content type="html"><![CDATA[<blockquote><p>   最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p></blockquote>
+    <id>http://chaozi204.github.io/blog/date-calendar-of-java</id>
+    <content type="html"><![CDATA[<blockquote>
+  <p>最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p>
+</blockquote>
 
 <ul>
-<li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
-<li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</li>
+  <li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
+  <li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)
+<!-- more -->
+  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</li>
 </ul>
 
-
-<!-- more -->
-
-
-<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</p>
-
-<pre><code class="`` java">  public static void dateDesc(){
+<p><code>java
+  public static void dateDesc(){
     Date date = new Date();
     int week1 = date.getDay();
     Calendar calendar = Calendar.getInstance();
@@ -368,90 +333,84 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
     System.out.println("Week1="+week1);
     System.out.println("Week2="+week2);
   }
-</code></pre>
+ </code></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[log4j 打印异常堆栈信息]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/12/09/log4j-stack/"/>
+    <link href="http://chaozi204.github.io/blog/log4j-stack/"/>
     <updated>2014-12-09T19:02:24+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/12/09/log4j-stack</id>
-    <content type="html"><![CDATA[<p>Log4j打印日子的代码：</p>
+    <id>http://chaozi204.github.io/blog/log4j-stack</id>
+    <content type="html"><![CDATA[<p>常用 Log4j 打印日志的代码：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestLog</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">TestLog</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">test1</span><span class="o">();</span>
-</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;--------------------------&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="n">test2</span><span class="o">();</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test1</span><span class="o">(){</span>
-</span><span class='line'>    <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test2</span><span class="o">(){</span>
-</span><span class='line'>    <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><!-- more --></p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestLog</span> <span class="o">{</span>
+</span><span class="line">  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">TestLog</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class="line">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">test1</span><span class="o">();</span>
+</span><span class="line">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;--------------------------&quot;</span><span class="o">);</span>
+</span><span class="line">    <span class="n">test2</span><span class="o">();</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test1</span><span class="o">(){</span>
+</span><span class="line">    <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test2</span><span class="o">(){</span>
+</span><span class="line">    <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>代码中test1 和test2 打印区别是：
 test1() 会打印出Exception e的异常堆栈信息，
 test2()只会打印出Exception 的 message 信息</p>
-
-<!-- more -->
-
 
 <p>其结果：</p>
 
 <p>`
 14/12/09 19:14:57 ERROR common.TestLog:</p>
 
-<p>-&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</p>
+<p>-————————-</p>
 
 <p>java.lang.ArithmeticException: / by zero
-    at com.flyover.test.common.TestLog.test1(TestLog.java:19)
-    at com.flyover.test.common.TestLog.main(TestLog.java:12)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke(Method.java:606)
-    at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+	at com.flyover.test.common.TestLog.test1(TestLog.java:19)
+	at com.flyover.test.common.TestLog.main(TestLog.java:12)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
 14/12/09 19:14:57 ERROR common.TestLog: java.lang.ArithmeticException: / by zero
 `</p>
 ]]></content>
@@ -459,122 +418,109 @@ test2()只会打印出Exception 的 message 信息</p>
   
   <entry>
     <title type="html"><![CDATA[Hive正则匹配中文问题]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/29/hive-chinese/"/>
+    <link href="http://chaozi204.github.io/blog/hive-chinese/"/>
     <updated>2014-11-29T17:34:37+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/29/hive-chinese</id>
+    <id>http://chaozi204.github.io/blog/hive-chinese</id>
     <content type="html"><![CDATA[<p>利用Hive的正则匹配中文时需要注意：</p>
 
 <ul>
-<li>中文的字符集合为[\u4e00-\u9fa5]</li>
-<li>但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用</li>
+  <li>中文的字符集合为[\u4e00-\u9fa5]</li>
+  <li>但是hive在hive执行中会被转义，因此需要增加一次java的转义字符才能够正确使用</li>
 </ul>
 
-
 <p>例如：
-<code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$'</code></p>
+<code>select title from vid_title where type='my' and title rlike '^[\\\u4e00-\\\u9fa5]{1,2}$' </code></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[intellij idea 自定义缩写]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation/"/>
+    <link href="http://chaozi204.github.io/blog/intellij-abbreviation/"/>
     <updated>2014-11-28T19:02:22+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/28/intellij-abbreviation</id>
-    <content type="html"><![CDATA[<p>  缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13</p>
-
+    <id>http://chaozi204.github.io/blog/intellij-abbreviation</id>
+    <content type="html"><![CDATA[<p>缩写是开发中利器，能够节约工程师打太多重复的代码好工具，作为一款比较牛叉的开发工具，Intellij当然包含了这个功能，而且还非常丰富，下面就记录如何查找默认定义的这些缩写，以及如何自定义缩写。 说明环境: Intellij IDEA 13 
 <!-- more -->
-
+- 默认缩写在 Preference —&gt; Live Templates 中,如图：
+<img src="http://chaozi204.github.io/images/intellji/abbreviation_find.png" alt="image" /></p>
 
 <ul>
-<li><p>默认缩写在 Preference —> Live Templates 中,如图：
-<img src="http://chaozi204.github.io/images/intellji/abbreviation_find.png" alt="image" /></p></li>
-<li><p>自定义Abbreviation（缩写）过程：</p></li>
-<li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
-<li>点击图中右上角的 ’+’ 号</li>
-<li>选择Live Template</li>
-<li>根据要求输入缩写名称和代表的真实名称</li>
-<li>选择定义的 Applicable Contexts （也就是选择应用到的语言中）</li>
-<li><p>最后结果如下所示(这里以定义java中的 main 为例 )
-<img src="http://chaozi204.github.io/images/intellji/abbreviation_custom.png" alt="image" /></p></li>
-<li><p>完成</p></li>
+  <li>自定义Abbreviation（缩写）过程：
+    <ol>
+      <li>自定义Abbrevatuion，首选要选择它所在的组，比如，选择上图中的other</li>
+      <li>点击图中右上角的 ’+’ 号</li>
+      <li>选择Live Template</li>
+      <li>根据要求输入缩写名称和代表的真实名称</li>
+      <li>选择定义的 Applicable Contexts （也就是选择应用到的语言中）</li>
+      <li>最后结果如下所示(这里以定义java中的 main 为例 )
+ <img src="http://chaozi204.github.io/images/intellji/abbreviation_custom.png" alt="image" /></li>
+    </ol>
+  </li>
+  <li>完成</li>
 </ul>
-
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Task读取HDFS数据导致任务失败或延迟]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/11/25/confession/"/>
+    <link href="http://chaozi204.github.io/blog/confession/"/>
     <updated>2014-11-25T23:00:37+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/11/25/confession</id>
-    <content type="html"><![CDATA[<h3>问题描述</h3>
-
+    <id>http://chaozi204.github.io/blog/confession</id>
+    <content type="html"><![CDATA[<h3 id="section">问题描述</h3>
 <ul>
-<li><p>Hadoop Job在执行时非常缓慢（hadoop-1.0.0 和 hadoop-2.5.0集群中都有），且很多Map任务或reduce任务因为超时被kill掉，异常信息如下：
-<code>Task attempt_201406261559_894052_m_000269_1 failed to report status for 602 seconds. Killing!</code></p></li>
-<li><p>任务卡在初始化的过程中，也就是Map和Reduce的setup方法中
+  <li>
+    <p>Hadoop Job在执行时非常缓慢（hadoop-1.0.0 和 hadoop-2.5.0集群中都有），且很多Map任务或reduce任务因为超时被kill掉，异常信息如下：
+<code>Task attempt_201406261559_894052_m_000269_1 failed to report status for 602 seconds. Killing!</code></p>
+  </li>
+  <li>任务卡在初始化的过程中，也就是Map和Reduce的setup方法中
 <code>protected void setup(Context context ) throws IOException, InterruptedException { }
-</code></p></li>
-<li>任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时</li>
-</ul>
-
-
+</code></li>
+  <li>任务有些成功有些被kill，大部分情况下job最终执行是成功，只是比较耗时
 <!-- more -->
-
-
-<h3>问题分析及排查</h3>
+### 问题分析及排查</li>
+  <li>首先排查GC导致的问题，检查其中几个任务的gc情况就可以得出是不是GC引起的</li>
+  <li>因为任务是因为超时被kill的，也就是说任务在10分钟左右都没有进度，且任务的状态是在RUNNING状态，也就是说任务要么卡在setup初始化中，要么是卡在map方法或reduce方法中比较耗时的操作</li>
+  <li>检查用户代码，主要查看setup方法和任务比较耗时的map或reduce方法</li>
+  <li>发现在setup方法中，会去读取hdfs文件，文件大小在100M左右</li>
+</ul>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">read</span><span class="o">(</span><span class="n">String</span> <span class="n">filePath</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+</span><span class="line">    <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Configuration</span><span class="o">();</span>
+</span><span class="line">    <span class="n">FSDataInputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class="line">    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">filePath</span><span class="o">;</span>
+</span><span class="line">    <span class="n">StringBuffer</span> <span class="n">rv</span><span class="o">=</span><span class="k">new</span> <span class="nf">StringBuffer</span><span class="o">();</span>
+</span><span class="line">    <span class="n">FileSystem</span> <span class="n">hdfs</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+</span><span class="line">    <span class="n">in</span> <span class="o">=</span> <span class="n">hdfs</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="k">new</span> <span class="nf">Path</span><span class="o">(</span><span class="n">fileName</span><span class="o">));</span>
+</span><span class="line">    <span class="n">String</span> <span class="n">aline</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class="line">    <span class="n">BufferedReader</span> <span class="n">bufread</span><span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">in</span><span class="o">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">));</span>
+</span><span class="line">    <span class="k">while</span><span class="o">((</span><span class="n">aline</span><span class="o">=</span><span class="n">bufread</span><span class="o">.</span><span class="na">readLine</span><span class="o">())!=</span><span class="kc">null</span><span class="o">){</span>
+</span><span class="line">        <span class="n">rv</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">aline</span><span class="o">+</span><span class="s">&quot;\n&quot;</span><span class="o">);}</span>
+</span><span class="line">    <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">rv</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>首先排查GC导致的问题，检查其中几个任务的gc情况就可以得出是不是GC引起的</li>
-<li>因为任务是因为超时被kill的，也就是说任务在10分钟左右都没有进度，且任务的状态是在RUNNING状态，也就是说任务要么卡在setup初始化中，要么是卡在map方法或reduce方法中比较耗时的操作</li>
-<li>检查用户代码，主要查看setup方法和任务比较耗时的map或reduce方法</li>
-<li>发现在setup方法中，会去读取hdfs文件，文件大小在100M左右</li>
+  <li>此时开始怀疑是不是因为读取文件而导致这个问题呢。于是分析计算，总计2400 Map个，3个文件的备份，每个备份要负责800个任务的读取操作，假设网络带宽为100M跑满，也就是1秒中最多只能给1个map输送数据，这样全部完成需要800秒，超过了10分钟，也就是任务被kill的原因（以上分析完全是理想的情况下，实际情况更复杂），这是去查看cache的文件在机器的备份情况，然后通过ganglia查看机器当时的网络消费（的确是跑满了网络带宽，而且持续时间超过了10分钟），因此判断是因为网络堵塞导致任务失败.</li>
 </ul>
 
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">read</span><span class="o">(</span><span class="n">String</span> <span class="n">filePath</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
-</span><span class='line'>    <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Configuration</span><span class="o">();</span>
-</span><span class='line'>    <span class="n">FSDataInputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">filePath</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">StringBuffer</span> <span class="n">rv</span><span class="o">=</span><span class="k">new</span> <span class="nf">StringBuffer</span><span class="o">();</span>
-</span><span class='line'>    <span class="n">FileSystem</span> <span class="n">hdfs</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
-</span><span class='line'>    <span class="n">in</span> <span class="o">=</span> <span class="n">hdfs</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="k">new</span> <span class="nf">Path</span><span class="o">(</span><span class="n">fileName</span><span class="o">));</span>
-</span><span class='line'>    <span class="n">String</span> <span class="n">aline</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">BufferedReader</span> <span class="n">bufread</span><span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">in</span><span class="o">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">));</span>
-</span><span class='line'>    <span class="k">while</span><span class="o">((</span><span class="n">aline</span><span class="o">=</span><span class="n">bufread</span><span class="o">.</span><span class="na">readLine</span><span class="o">())!=</span><span class="kc">null</span><span class="o">){</span>
-</span><span class='line'>        <span class="n">rv</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">aline</span><span class="o">+</span><span class="s">&quot;\n&quot;</span><span class="o">);}</span>
-</span><span class='line'>    <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">rv</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<h3 id="section-1">解决方法</h3>
 <ul>
-<li>此时开始怀疑是不是因为读取文件而导致这个问题呢。于是分析计算，总计2400 Map个，3个文件的备份，每个备份要负责800个任务的读取操作，假设网络带宽为100M跑满，也就是1秒中最多只能给1个map输送数据，这样全部完成需要800秒，超过了10分钟，也就是任务被kill的原因（以上分析完全是理想的情况下，实际情况更复杂），这是去查看cache的文件在机器的备份情况，然后通过ganglia查看机器当时的网络消费（的确是跑满了网络带宽，而且持续时间超过了10分钟），因此判断是因为网络堵塞导致任务失败.</li>
+  <li>最好使用DistributeCache来代替直接读取hdfs文件的操作，这样不仅可以接受网络带宽，还能减少任务初始化的时间，减少因为本任务对其他任务的影响</li>
+  <li>次之方法是将文件的备份数增多，但是全部的网络消耗并没有节省，但是能够保证任务执行</li>
 </ul>
-
-
-<h3>解决方法</h3>
-
-<ul>
-<li>最好使用DistributeCache来代替直接读取hdfs文件的操作，这样不仅可以接受网络带宽，还能减少任务初始化的时间，减少因为本任务对其他任务的影响</li>
-<li>次之方法是将文件的备份数增多，但是全部的网络消耗并没有节省，但是能够保证任务执行</li>
-</ul>
-
 ]]></content>
   </entry>
   

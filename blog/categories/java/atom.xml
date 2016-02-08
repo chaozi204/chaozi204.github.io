@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: java | 超子博客]]></title>
+  <title><![CDATA[Category: java | ]]></title>
   <link href="http://chaozi204.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:53:06+08:00</updated>
+  <updated>2016-02-08T13:13:07+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -15,23 +15,22 @@
   
   <entry>
     <title type="html"><![CDATA[Date与Calendar对于周信息表示的差异]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java/"/>
+    <link href="http://chaozi204.github.io/blog/date-calendar-of-java/"/>
     <updated>2014-12-19T23:02:20+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/12/19/date-calendar-of-java</id>
-    <content type="html"><![CDATA[<blockquote><p>   最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p></blockquote>
+    <id>http://chaozi204.github.io/blog/date-calendar-of-java</id>
+    <content type="html"><![CDATA[<blockquote>
+  <p>最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:</p>
+</blockquote>
 
 <ul>
-<li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
-<li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)</li>
+  <li>Date： 周日(0),周一(1),周二(2),周三(3),周四(4),周五(5),周六(6)</li>
+  <li>Calendar： 周日(1),周一(2),周二(3),周三(4),周四(5),周五(6),周六(7)
+<!-- more -->
+  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</li>
 </ul>
 
-
-<!-- more -->
-
-
-<p>  因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</p>
-
-<pre><code class="`` java">  public static void dateDesc(){
+<p><code>java
+  public static void dateDesc(){
     Date date = new Date();
     int week1 = date.getDay();
     Calendar calendar = Calendar.getInstance();
@@ -39,17 +38,20 @@
     System.out.println("Week1="+week1);
     System.out.println("Week2="+week2);
   }
-</code></pre>
+ </code></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[log4j 打印异常堆栈信息]]></title>
-    <link href="http://chaozi204.github.io/blog/2014/12/09/log4j-stack/"/>
+    <link href="http://chaozi204.github.io/blog/log4j-stack/"/>
     <updated>2014-12-09T19:02:24+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2014/12/09/log4j-stack</id>
-    <content type="html"><![CDATA[<p>Log4j打印日子的代码：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+    <id>http://chaozi204.github.io/blog/log4j-stack</id>
+    <content type="html"><![CDATA[<p>常用 Log4j 打印日志的代码：</p>
+
+<p><!-- more --></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -71,22 +73,18 @@
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
 </pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestLog</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">TestLog</span><span class="o">.</span><span class="na">class</span><span class="o">);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">TestLog</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 </span><span class='line'>    <span class="n">test1</span><span class="o">();</span>
-</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">mdash</span><span class="o">;&amp;</span><span class="n">ndash</span><span class="o">;&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="err">“————————–”</span><span class="o">);</span>
 </span><span class='line'>    <span class="n">test2</span><span class="o">();</span>
-</span><span class='line'>  <span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test1</span><span class="o">(){</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test1</span><span class="o">(){</span>
 </span><span class='line'>    <span class="k">try</span> <span class="o">{</span>
 </span><span class='line'>      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
 </span><span class='line'>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="err">“”</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">test2</span><span class="o">(){</span>
@@ -97,29 +95,27 @@
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-代码中test1 和test2 打印区别是：
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>代码中test1 和test2 打印区别是：
 test1() 会打印出Exception e的异常堆栈信息，
 test2()只会打印出Exception 的 message 信息</p>
-
-<!-- more -->
-
 
 <p>其结果：</p>
 
 <p>`
 14/12/09 19:14:57 ERROR common.TestLog:</p>
 
-<p>-&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-</p>
+<p>-————————-</p>
 
 <p>java.lang.ArithmeticException: / by zero
-    at com.flyover.test.common.TestLog.test1(TestLog.java:19)
-    at com.flyover.test.common.TestLog.main(TestLog.java:12)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke(Method.java:606)
-    at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+	at com.flyover.test.common.TestLog.test1(TestLog.java:19)
+	at com.flyover.test.common.TestLog.main(TestLog.java:12)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
 14/12/09 19:14:57 ERROR common.TestLog: java.lang.ArithmeticException: / by zero
 `</p>
 ]]></content>

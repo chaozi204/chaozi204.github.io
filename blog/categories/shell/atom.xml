@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: shell | 超子博客]]></title>
+  <title><![CDATA[Category: shell | ]]></title>
   <link href="http://chaozi204.github.io/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-04T17:53:06+08:00</updated>
+  <updated>2016-02-08T13:13:07+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -15,23 +15,29 @@
   
   <entry>
     <title type="html"><![CDATA[Shell 技巧]]></title>
-    <link href="http://chaozi204.github.io/blog/2015/01/09/bash-tips/"/>
+    <link href="http://chaozi204.github.io/blog/bash-tips/"/>
     <updated>2015-01-09T09:52:33+08:00</updated>
-    <id>http://chaozi204.github.io/blog/2015/01/09/bash-tips</id>
+    <id>http://chaozi204.github.io/blog/bash-tips</id>
     <content type="html"><![CDATA[<p>记录工作中常用且常忘的那些方法</p>
 
-<blockquote><p>bash中取由变量生成的变量的值</p></blockquote>
+<blockquote>
+  <p>bash中取由变量生成的变量的值</p>
+</blockquote>
 
-<pre><code class="bash">    var1="123"
-    var2=1
-    gen_var=sql$var2
-    echo $((gen_var))
-</code></pre>
+<p><code>bash
+	var1="123"
+	var2=1
+	gen_var=sql$var2
+	echo $((gen_var))
+</code></p>
 
-<blockquote><p>bash中取脚本的当前路径</p></blockquote>
+<blockquote>
+  <p>bash中取脚本的当前路径</p>
+</blockquote>
 
-<pre><code class="bash">    dir=$(cd `dirname $0`;pwd)
-</code></pre>
+<p><code>bash
+	dir=$(cd `dirname $0`;pwd)
+</code></p>
 ]]></content>
   </entry>
   
