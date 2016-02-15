@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://chaozi204.github.io/blog/dynamically-set-logger-level/</loc>
+<lastmod>2016-02-08T22:19:14+08:00</lastmod>
+</url>
+<url>
 <loc>http://chaozi204.github.io/blog/hadoop-v2-snappy-install/</loc>
 <lastmod>2015-11-10T11:19:54+08:00</lastmod>
 </url>
@@ -18,7 +22,7 @@
 </url>
 <url>
 <loc>http://chaozi204.github.io/blog/rcfile-assistant-compression/</loc>
-<lastmod>2015-01-08T18:37:59+08:00</lastmod>
+<lastmod>2015-01-09T02:37:59+08:00</lastmod>
 </url>
 <url>
 <loc>http://chaozi204.github.io/blog/date-calendar-of-java/</loc>
@@ -69,5 +73,8 @@
 </url>
 <url>
 <loc>http://chaozi204.github.io/blog/categories/shell/</loc>
+</url>
+<url>
+<loc>http://chaozi204.github.io/blog/categories/log4j/</loc>
 </url>
 </urlset>

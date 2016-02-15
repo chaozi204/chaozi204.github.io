@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hive | ]]></title>
   <link href="http://chaozi204.github.io/blog/categories/hive/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-08T13:30:59+08:00</updated>
+  <updated>2016-02-15T16:12:39+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -48,14 +48,15 @@ CREATE FUNCTION udfDecoder AS  'com.sohu.tv.udf.udfDecoder' USING JAR 'hdfs://nn
   <entry>
     <title type="html"><![CDATA[利用RCFile的特性提高压缩率]]></title>
     <link href="http://chaozi204.github.io/blog/rcfile-assistant-compression/"/>
-    <updated>2015-01-08T18:37:59+08:00</updated>
+    <updated>2015-01-09T02:37:59+08:00</updated>
     <id>http://chaozi204.github.io/blog/rcfile-assistant-compression</id>
     <content type="html"><![CDATA[<pre><code>最近公司集群的存储空间过于紧张，一度低于5% 。集群空间一下子成为了集群瓶颈。再申请扩容无望的情况下，我们不得不着手于通过业务节省空间，
 或者强制进行删除文件。
-同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常，于是调查原因发现：
-1. 日志相似性比较（这是业务本身的特性）
-2. 生成结果数据是，利用李distribute by + sort by的hive特性，将相似的记录放在同一个reduce中，并根据特性字段排序
-3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了
+工作中,和同事无意中发现他的一份业务数据采用lzo + rcfile压缩后，压缩率超高，压缩前3G，压缩后200M。这种压缩率让我们感觉到异常(因为
+通常情况下,这种压缩率级别在3倍左右),通过排查发现造成这种高压缩率的原因为:
+1. 日记记录特别相似性（这是业务本身的特性）,很多行除了小部分字段不同外,大部分一样.
+2. 利用distribute by + sort by的hive特性，生成了hive表结果数据. 这样可以将相似的记录放在同一个reduce中，并根据特性字段排序
+3. 利用rcfile的行列混合存储特性，就可以完成非常高的压缩率了(因为大部分列相同,所有就会有很高的压缩比)
 </code></pre>
 
 ]]></content>
