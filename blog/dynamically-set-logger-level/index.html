@@ -139,11 +139,22 @@
 
 
 <div class="entry-content"><ul id="markdown-toc">
-  <li><a href="#log4j-" id="markdown-toc-log4j-">log4j 配置属性</a></li>
-  <li><a href="#log4j--1" id="markdown-toc-log4j--1">在线设置Log4j 日志级别</a></li>
+  <li><a href="#log4j-" id="markdown-toc-log4j-">在线设置Log4j 日志级别</a></li>
+  <li><a href="#log4j--1" id="markdown-toc-log4j--1">log4j 配置属性</a></li>
 </ul>
 
-<h4 id="log4j-">log4j 配置属性</h4>
+<h4 id="log4j-">在线设置Log4j 日志级别</h4>
+<p>hadoop RM,NN,DN,NM等支持动态在线设置log4j的日志级别，参考：<a href="https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/CommandsManual.html#daemonlog">daemonlog</a></p>
+
+<p>改功能的原理是，利用log4j的Logger API中setLevel方法，在线修改当前Logger使用的日志级别。然而，这种方式并不适用所有的log4j的实现，它只能适用于Logger类中对外开放setLevel方法的，目前知道的两个logger的实现带有这个方法：
+<!-- more -->
+* org.apache.log4j.Logger
+* java.util.logging.Logger</p>
+
+<p>我在实际开发工作中，经常会需要在线的修改日志级别来方便调试和问题排查，因此我根据hadoop对这个功能的实现进行了抽取，独立形成一个简单的小工具，用以在实际开发中方便的使用logg4j的在线动态修改日志级别(采用restful方式，进行修改)。例子参考：
+<a href="https://github.com/chaozi204/grindstone/tree/master/knife">com.lee.knife.runtime.rest.LOGTest</a></p>
+
+<h4 id="log4j--1">log4j 配置属性</h4>
 <p>Log4j的配置文件log4j-properties,支持预先声明属性var,并通过 ${var} 的方式使用如：</p>
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>配置样例 </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -169,19 +180,6 @@
   <li>通过修改log4j.properties文件，将属性 logs.dir=./logs 修改为新的路径地址logs.dir=/x1/x2</li>
   <li>通过jvm options的方式修改log4j的属性的值，而且通过 jvm options 的方式修改的值优先于 log4j.properties文件内定义的值。也就是说如果jvm的启动options中带有 -Dlogs.dir=xx ，那么这个值会优先被 log4j 系统使用（而不会再考虑配置文件中同样定义的属性）</li>
 </ol>
-
-<h4 id="log4j--1">在线设置Log4j 日志级别</h4>
-<p>hadoop RM,NN,DN,NM等支持动态在线设置log4j的日志级别，参考：<a href="https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/CommandsManual.html#daemonlog">daemonlog</a></p>
-
-<p>改功能的原理是，利用log4j的Logger API中setLevel方法，在线修改当前Logger使用的日志级别。然而，这种方式并不适用所有的log4j的实现，它只能适用于Logger类中对外开放setLevel方法的，目前知道的两个logger的实现带有这个方法：</p>
-
-<ul>
-  <li>org.apache.log4j.Logger</li>
-  <li>java.util.logging.Logger</li>
-</ul>
-
-<p>我在实际开发工作中，经常会需要在线的修改日志级别来方便调试和问题排查，因此我根据hadoop对这个功能的实现进行了抽取，独立形成一个简单的小工具，用以在实际开发中方便的使用logg4j的在线动态修改日志级别(采用restful方式，进行修改)。例子参考：
-<a href="https://github.com/chaozi204/grindstone/tree/master/knife">com.lee.knife.runtime.rest.LOGTest</a></p>
 </div>
 
 
