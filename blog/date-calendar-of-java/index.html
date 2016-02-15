@@ -149,16 +149,24 @@
   因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:</li>
 </ul>
 
-<p><code>java
-  public static void dateDesc(){
-    Date date = new Date();
-    int week1 = date.getDay();
-    Calendar calendar = Calendar.getInstance();
-    int week2 = calendar.get(Calendar.DAY_OF_WEEK);
-    System.out.println("Week1="+week1);
-    System.out.println("Week2="+week2);
-  }
- </code></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>例子 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dateDesc</span><span class="o">(){</span>
+</span><span class="line">    <span class="n">Date</span> <span class="n">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Date</span><span class="o">();</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">week1</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="na">getDay</span><span class="o">();</span>
+</span><span class="line">    <span class="n">Calendar</span> <span class="n">calendar</span> <span class="o">=</span> <span class="n">Calendar</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">week2</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">Calendar</span><span class="o">.</span><span class="na">DAY_OF_WEEK</span><span class="o">);</span>
+</span><span class="line">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Week1=&quot;</span><span class="o">+</span><span class="n">week1</span><span class="o">);</span>
+</span><span class="line">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Week2=&quot;</span><span class="o">+</span><span class="n">week2</span><span class="o">);</span>
+</span><span class="line">  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
