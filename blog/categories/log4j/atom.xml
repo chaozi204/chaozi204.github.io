@@ -4,7 +4,7 @@
   <title><![CDATA[Category: log4j | ]]></title>
   <link href="http://chaozi204.github.io/blog/categories/log4j/atom.xml" rel="self"/>
   <link href="http://chaozi204.github.io/"/>
-  <updated>2016-02-15T16:25:41+08:00</updated>
+  <updated>2016-02-16T10:05:54+08:00</updated>
   <id>http://chaozi204.github.io/</id>
   <author>
     <name><![CDATA[超子]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[动态设置 log4j 日志级别]]></title>
+    <title type="html"><![CDATA[在线设置 log4j 日志级别]]></title>
     <link href="http://chaozi204.github.io/blog/dynamically-set-logger-level/"/>
     <updated>2016-02-08T22:19:14+08:00</updated>
     <id>http://chaozi204.github.io/blog/dynamically-set-logger-level</id>
