@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://chaozi204.github.io/blog/pidstat-high-syscpu/</loc>
+<lastmod>2016-02-24T23:10:10+08:00</lastmod>
+</url>
+<url>
 <loc>http://chaozi204.github.io/blog/dynamically-set-logger-level/</loc>
 <lastmod>2016-02-08T22:19:14+08:00</lastmod>
 </url>

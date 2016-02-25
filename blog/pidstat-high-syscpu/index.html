@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Shell 技巧 - </title>
+  <title>high syscpu 问题排查经历 - </title>
   <meta name="author" content="超子">
 
   
   <meta name="description" content="分享">
-  <meta name="keywords" content="bash shell tips">
+  <meta name="keywords" content="high,syscpu, system cpu,pidstat , thread">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chaozi204.github.io/blog/bash-tips">
+  <link rel="canonical" href="http://chaozi204.github.io/blog/pidstat-high-syscpu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -116,7 +116,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Shell 技巧</h1>
+      <h1 class="entry-title">High Syscpu 问题排查经历</h1>
     
     
       <p class="meta">
@@ -125,7 +125,7 @@
 
 
 
-2015-01-09
+2016-02-24
         
   
 
@@ -138,29 +138,56 @@
   </header>
 
 
-<div class="entry-content"><p>记录工作中常用且常忘的那些方法</p>
+<div class="entry-content"><h4 id="section">问题描述</h4>
 
 <blockquote>
-  <p>bash中取由变量生成的变量的值</p>
+  <p>最近工作中发现有一些的应用程序导致系统的syscpu比较高，大概30%以上，对于我所在的公司来说，这么较高的sys cpu基本反映了当时运行的应用程序中应该有存在问题，如图:
+<img src="/images/my/syscpu-high-1" alt="image" />
+<!-- more --></p>
 </blockquote>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">var1</span><span class="o">=</span><span class="s2">&quot;123&quot;</span>
-</span><span class="line"><span class="nv">var2</span><span class="o">=</span>1
-</span><span class="line"><span class="nv">gen_var</span><span class="o">=</span>sql<span class="nv">$var2</span>
-</span><span class="line"><span class="nb">echo</span> <span class="k">$((</span>gen_var<span class="k">))</span>
+<h4 id="section-1">问题排查</h4>
+
+<blockquote>
+  <p>1 、利用vmstat 命令检查当前系统的状态。判断系统的上下文切换和软终端等统计数据，这些状态数据容易导致sys cpu较高</p>
+</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">vmstat  1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img src="/images/my/syscpu-high-2.png" alt="image" />
+ 途中可以看出来上下文切换时比较多，先假设是又由于部分程序线程切换和竞争导致，因此继续排查是哪些程序占用syscpu</p>
+
+<blockquote>
+  <p>2、利用pidstat，查找syscpu比较高的程序的进程号pid</p>
+</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">pidstat -u 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img src="/images/my/syscpu-high-3.png" alt="image" />
+因此发现14744 这个程序的system cpu比较高，下面就需要排查14744这个程序那个线程导致比较高的sys cpu</p>
+
+<blockquote>
+  <p>3、利用pidstat，查找特定程序下消耗syscpu比较高的线程id</p>
+</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">pidstat -t -p <span class="m">14744</span> 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img src="/images/my/syscpu-high-4.png" alt="image" />
+这时已经定位到15497这个线程id，有比较高的sys cpu比较高，这个线程id是10进制的，这里需要转换为16进制，用以在下面的jstack的数据中查找对应的线程信息。（16进制数—3c89）</p>
+
+<blockquote>
+  <p>4、 利用 jstack打出线程堆栈</p>
+</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">   jstack <span class="m">14744</span> &gt; 14744
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <blockquote>
-  <p>bash中取脚本的当前路径</p>
+  <p>5、利用转换的16进制线程id，在14744中堆栈信息中查找特定的线程
+<img src="/images/my/syscpu-high-5.png" alt="image" />
+到此，整个定位就排查完成，最后是因为队列锁等待导致sys cpu高。</p>
 </blockquote>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -178,14 +205,10 @@
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/rcfile-assistant-compression/" title="Previous Post:
-        利用RCFile的特性提高压缩率">&laquo; 利用RCFile的特性提高压缩率</a></li>
+        href="/blog/dynamically-set-logger-level/" title="Previous Post:
+        在线设置 log4j 日志级别">&laquo; 在线设置 log4j 日志级别</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/log-aggregation-permission-warning/"
-        title="Next Post: yarn 日志聚集权限警告">yarn 日志聚集权限警告
-        &raquo;</a></li>
       
     </ul>
   </footer>
@@ -199,6 +222,26 @@
 </aside>
 
 
+
+  <section>
+     <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/pidstat-high-syscpu" data-title="high syscpu 问题排查经历" data-url="http://chaozi204.github.io/blog/pidstat-high-syscpu/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chaozi204"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
 
 
     </div>
