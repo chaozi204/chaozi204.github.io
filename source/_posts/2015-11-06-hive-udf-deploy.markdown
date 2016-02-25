@@ -11,6 +11,8 @@ categories: hive
 	每个组或每个团队之间的udf彼此不受影响。
 	相信安装部署见：https://github.com/chaozi204/hive-udf-hook
 
+ <!-- more -->
+
 ### 临时UDF方法：
 	这个是最常见的Hive使用方式，通过hive的命令来完成UDF的部署
 	hive> add jar xxxx.jar

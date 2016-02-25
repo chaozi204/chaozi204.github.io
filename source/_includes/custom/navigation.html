@@ -1,4 +1,14 @@
-<ul class="main-navigation">
-  <li><a href="{{ root_url }}/">Blog</a></li>
-  <li><a href="{{ root_url }}/blog/archives">Archives</a></li>
+<script src="js/bootstrap.min.js"></script>
+<link href="stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+<ul class="nav">
+  <li><a href="{{ root_url }}/"><i class="fa fa-home fa-lg"></i>首页</a></li>
+  <li><a href="{{ root_url }}/blog/archives"><i class="fa fa-bars fa-lg"></i>文章列表</a></li>
+  <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-archive fa-lg"></i>文章分类</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li>    {% category_list %} </li>
+      </ul>
+  </li>
+
+  <li><a href="{{ root_url }}/about"><i class="fa fa-user-md fa-lg"></i>About Me</a></li>
 </ul>

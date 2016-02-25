@@ -6,20 +6,20 @@ comments: true
 categories: Java
 description: Java log4j
 keywords: Java log4j 
-
 ---
 
-Log4j打印日子的代码：
-``` java
+常用 Log4j 打印日志的代码：
+
+ <!-- more -->
+
+{% codeblock lang:java %}
 public class TestLog {
   private static Logger log = Logger.getLogger(TestLog.class);
-
   public static void main(String[] args) {
     test1();
     System.out.println("--------------------------");
     test2();
   }
-
   public static void test1(){
     try {
       int x = 1 / 0;
@@ -35,11 +35,12 @@ public class TestLog {
     }
   }
 }
-```
+{% endcodeblock %}
+
 代码中test1 和test2 打印区别是：
 test1() 会打印出Exception e的异常堆栈信息，
 test2()只会打印出Exception 的 message 信息
-<!-- more -->
+
 其结果：
 
 `

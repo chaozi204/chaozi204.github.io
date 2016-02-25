@@ -5,7 +5,6 @@ date: 2014-12-19 23:02:20 +0800
 comments: true
 categories: Java
 keywords: Java Date Calerdar week
-
 ---
 
 >    最近在做一个项目中，同时使用了Java自身携带的java.util.Date类，和java.util.Calendar类来表示和处理时间。项目期间遇见了一个时间上的bug，主要是表示周几的问题上出现了差异。因为Java中，Date类的getDay方法，和Calendar.get(Calendar.DAY_OF_WEEK)返回的周信息表示分别为:
@@ -15,7 +14,7 @@ keywords: Java Date Calerdar week
 <!-- more -->
   因为我用数字来表示周几，且出现了混用两个类，导致了bug的出现。测试代码:
   
-  ``` java
+  {% codeblock lang:java 例子 %}
   public static void dateDesc(){
     Date date = new Date();
     int week1 = date.getDay();
@@ -24,4 +23,4 @@ keywords: Java Date Calerdar week
     System.out.println("Week1="+week1);
     System.out.println("Week2="+week2);
   }
-  ```
+{% endcodeblock %}
